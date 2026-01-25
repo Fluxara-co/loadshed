@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  device-dnp3-service:
+    build: .
+    container_name: device-dnp3-service
+    ports:
+      - "8086:8080"  # Process Manager API
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - MQTT_BROKER_PORT=1883
+      - API_PORT=8080
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./configs:/app/configs:ro
+      - ./logs:/var/log
+      - ./data:/app/data
+    depends_on:
+      - mosquitto
+    restart: unless-stopped
+    networks:
+      - microservice_net
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_logs:/mosquitto/log
+    networks:
+      - microservice_net
+
+volumes:
+  mosquitto_data:
+  mosquitto_logs:
+
+networks:
+  microservice_net:
+    driver: bridge
+

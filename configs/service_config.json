@@ -1,0 +1,52 @@
+{
+  "service": {
+    "name": "microservice_template",
+    "version": "1.0.0",
+    "description": "Generic C++ Microservice Template"
+  },
+  "api_server": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "max_connections": 100
+  },
+  "mqtt": {
+    "broker_host": "mosquitto",
+    "broker_port": 1883,
+    "client_id": "microservice_template",
+    "keepalive": 60,
+    "qos": 1,
+    "topics": {
+      "subscribe": [
+        "device/+/data",
+        "system/commands/#"
+      ],
+      "publish": [
+        "system/status",
+        "system/events"
+      ]
+    }
+  },
+  "database": {
+    "enabled": false,
+    "host": "postgres",
+    "port": 5432,
+    "dbname": "microservice_db",
+    "user": "postgres",
+    "password": "postgres"
+  },
+  "logging": {
+    "level": "info",
+    "file": "/var/log/microservice.log",
+    "console": true,
+    "max_file_size_mb": 100,
+    "max_files": 5
+  },
+  "health_check": {
+    "interval_seconds": 30,
+    "timeout_seconds": 5
+  },
+  "custom": {
+    "note": "Add your custom configuration here"
+  }
+}
+

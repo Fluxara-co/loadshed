@@ -1,0 +1,10 @@
+{
+  "last_stop_time": 1762628390,
+  "metrics": {
+    "api_requests_total": 0,
+    "mqtt_messages_published": 0,
+    "mqtt_messages_received": 0,
+    "total_errors": 0,
+    "total_restarts": 0
+  }
+}
