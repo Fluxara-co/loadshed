@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>SHED_FLAG</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK SHED_FLAG
+VAR_INPUT
+	LOAD_TRIP_OUTPUTS_IN_A		:ARRAY[1..4] OF DWORD;
+	LOAD_TRIP_OUTPUTS_IN_B		:ARRAY[1..4] OF DWORD;
+	UF_LOAD_TRIP_OUTPUTS_IN_A	:ARRAY[1..4] OF DWORD;
+	UF_LOAD_TRIP_OUTPUTS_IN_B	:ARRAY[1..4] OF DWORD;
+	CONT_DETECTED_A   			:DWORD;
+	CONT_DETECTED_B   			:DWORD;
+	CLEAR:BOOL;
+END_VAR
+VAR_OUTPUT
+	SHED_FLAGS:ARRAY[1..nLOAD]OF INT;
+	CONT_FLAGS:ARRAY[1..nCONT] OF BOOL;
+	UF_CONT_FLAGS:ARRAY[1..nUFCONT] OF BOOL;
+END_VAR
+VAR
+		i,j,Index:INT;
+	LS_A:ARRAY[1..nLOAD] OF BOOL;
+	LS_B:ARRAY[1..nLOAD] OF BOOL;
+	UF_A:ARRAY[1..nLOAD] OF BOOL;
+	UF_B:ARRAY[1..nLOAD] OF BOOL;
+	CONT_A:ARRAY[1..nCONT] OF BOOL;
+	CONT_B:ARRAY[1..nCONT] OF BOOL;
+
+	LS_FLAG:ARRAY[1..nLOAD] OF BOOL;
+	UF_FLAG:ARRAY[1..nLOAD] OF BOOL;
+	CONT_FLAG:ARRAY[1..nCONT] OF BOOL;
+	UFCONT_FLAG:ARRAY[1..nUFCONT] OF BOOL;
+	LOAD_SHED_SR: ARRAY[1..nLOAD] OF SR;
+	UF_LOAD_SHED_SR: ARRAY[1..nLOAD] OF SR;
+	CONT_SR: ARRAY[1..nCONT] OF SR;
+	UFCONT_SR: ARRAY[1..nCONT] OF SR;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[
+		FOR i:=1 TO 2 DO
+			FOR j:=1 TO 32 DO
+				Index:= (i-1)*32 + j;
+				IF Index <=nLOAD THEN
+					LS_A[Index] :=EXTRACT(X:=LOAD_TRIP_OUTPUTS_IN_A[i]   ,N:=INT_TO_BYTE(j-1));
+					LS_B[Index] :=EXTRACT(X:=LOAD_TRIP_OUTPUTS_IN_B[i]   ,N:=INT_TO_BYTE(j-1));
+					UF_A[Index] :=EXTRACT(X:=UF_LOAD_TRIP_OUTPUTS_IN_A[i],N:=INT_TO_BYTE(j-1));
+					UF_B[Index] :=EXTRACT(X:=UF_LOAD_TRIP_OUTPUTS_IN_B[i],N:=INT_TO_BYTE(j-1));
+				END_IF
+			END_FOR
+		END_FOR
+
+		FOR i:=1 TO nLOAD DO
+				LOAD_SHED_SR[i](SET1:=LS_A[i] OR LS_B[i],RESET:=CLEAR);
+				LS_FLAG[i]:=LOAD_SHED_SR[i].Q1;
+				UF_LOAD_SHED_SR[i](SET1:=UF_A[i] OR UF_B[i],RESET:=CLEAR);
+				UF_FLAG[i]:=UF_LOAD_SHED_SR[i].Q1;
+		END_FOR
+
+		FOR i:=1 TO nLOAD DO
+			IF LS_FLAG[i] THEN
+				SHED_FLAGS[i] := 2;
+			ELSIF UF_FLAG[i]  THEN
+				SHED_FLAGS[i] := 1;
+			ELSE
+				SHED_FLAGS[i] := 0;
+			END_IF
+		END_FOR
+
+	]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

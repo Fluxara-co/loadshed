@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P02_Alarms</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P02_Alarms
+VAR
+	
+	LSP_B_COMM:IEDLOSSC;					(*LSP B comm fail*)
+	LSP_B3_COMM:IEDLOSSC;					(*LSP B3 comm fail*)
+	GCS_B_COMM:IEDLOSSC;					(*GCS B comm fail*)
+	GCS_B3_COMM:IEDLOSSC;					(*GCS B3 comm fail*)
+	GW_B_COMM:IEDLOSSC;						(*Gateway B comm fail*)
+	IOSRV1_To_GW_B_IEDLOSS:IEDLOSSC;		(*IO Server 1 comm fail*)
+	IOSRV2_To_GW_B_IEDLOSS:IEDLOSSC;		(*IO Server 2 comm fail*)
+	
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This program monitors the communication of all devices connected to FEP A. Refer to IEDLOSSC FB for more details*)
+
+	LSP_B_COMM     (Input1_:= FALSE,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_:= LSP_B_GW_B_WD,
+					WATCHDOG_EN_:=TRUE,
+					PICKUP_TIME_:=T#5S,  	
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>LSP_B_COM);
+
+	LSP_B3_COMM(Input1_:= FALSE,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_:= LSP_B3_GW_B_WD,
+					WATCHDOG_EN_:=TRUE,
+					PICKUP_TIME_:=T#5S,  	
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>LSP_B3_COM);
+					
+	GCS_B3_COMM(Input1_:= FALSE,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_:= GCS_B3_GW_WD_1,
+					WATCHDOG_EN_:=TRUE,
+					PICKUP_TIME_:=T#5S,  	
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>GCS_B3_COM);
+					
+	GCS_B_COMM(Input1_:= FALSE,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_:= GCS_B_GW_WD,
+					WATCHDOG_EN_:=TRUE,
+					PICKUP_TIME_:=T#5S,  	
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>GCS_B_COM);		
+			
+	IOSRV1_To_GW_B_IEDLOSS(Input1_:=  IO_B3_DNP_POU.Offline,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_EN_:=,
+					WATCHDOG_:=,   
+					PICKUP_TIME_:=T#5S,
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>IOSRV1_COM);
+
+	IOSRV2_To_GW_B_IEDLOSS(Input1_:=  IO_B3_DNP_POU.Offline,
+					Input2_:=FALSE,
+					Input3_:=FALSE,
+					WATCHDOG_EN_:=,
+					WATCHDOG_:=,
+					PICKUP_TIME_:=T#5S,
+					DROPOUT_TIME_:=T#20S,
+					DATA_READY_:=GW_BootUpComplete,
+					IED_LOSS_=>IOSRV2_COM);		
+			
+    GW_B_to_LSP_B3_WD:=Calender.Sec;
+    GW_B_to_LSP_B_WD:=Calender.Sec;
+	GW_B_TO_IOSRV01_WD:=Calender.Sec;		
+	GW_TO_GCS_B3_WD:=Calender.Sec;
+	GW_TO_GCS_B_WD:=Calender.Sec;
+	GWA_COUNTER.instMag:=DWORD_TO_REAL(CALENDER.Sec);
+				]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

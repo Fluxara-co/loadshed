@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <GVL>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LSP_COMMANDS_SET</Name>
+    <Content><![CDATA[VAR_GLOBAL
+	
+(* CONTINGENCY SUMMARY SCREEN SET *)
+
+	OP_DISABLE_SET		: ARRAY[1..nCONT] OF SR;
+	
+(* UF SCREEN SET *)	
+	UF_L1_Load_To_Shed_Set:REAL;
+	UF_L2_Load_To_Shed_SET:REAL;	
+	
+(* LOAD STATUS SCREEN SET *)
+	VALUE_OVERRIDE_SET 	: ARRAY[1..nLOAD] OF SR;
+	TEST_SHED_SET		: ARRAY[1..nLOAD] OF SR;	
+	TEST_SHED_RESET		: ARRAY[1..nLOAD] OF BOOL;
+	
+(* DIAGNOSTICS SCREEN SET *)
+	DISABLE_LSP_A : SR;
+	DISABLE_LSP_B : SR;
+	DISABLE_LSP	  : SR;
+	TEST_MODE_SET :SR;
+	COPY_DATA_FROM_LSPA_to_LSPB : SR;
+	COPY_DATA_FROM_LSPB_to_LSPA : SR;
+	LSP_SELECT_SET:SR;
+	CLEAR_SET:SR;
+	
+END_VAR
+]]></Content>
+  </GVL>
+</RTACModule>

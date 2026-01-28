@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>XPOINT_CALC</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK XPOINT_CALC
+VAR_INPUT
+	X:INT;
+	Select_List : ARRAY[1..8] OF DWORD;(* List of indications identifying which loads have been selected for this contingency *)
+	Inhibit_List: ARRAY[1..8] OF DWORD;(* List of indications identifying which loads have been inhibited for this contingency *)
+END_VAR
+VAR_OUTPUT
+	XPoint:ARRAY[1..nLOAD] OF INT;
+END_VAR
+VAR
+	i,j,k:INT;
+	Inhibit:ARRAY[1..nLOAD] OF BOOL;
+	SELECT :ARRAY[1..nLOAD] OF BOOL;
+	Index: INT;
+END_VAR]]></Interface>
+      <Implementation><![CDATA[		i:=1;
+		FOR Index:=1 TO nLOAD DO
+			Select [Index] :=EXTRACT(X:=Select_List[1],  N:=INT_TO_BYTE(Index-1));
+			Inhibit[Index] :=EXTRACT(X:=Inhibit_List[1], N:=INT_TO_BYTE(Index-1));
+		END_FOR
+		
+		FOR i:=1 TO nLOAD DO
+			IF Select[i] THEN
+				XPoint[i] := 2;
+			ELSIF Inhibit[i]  THEN
+				XPoint[i] := 1;
+			ELSE
+				XPoint[i] := 0;
+			END_IF
+		END_FOR
+		
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

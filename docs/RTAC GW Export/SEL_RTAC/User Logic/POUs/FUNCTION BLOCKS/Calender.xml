@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>Calender</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM Calender
+VAR
+	Time_Current:timeStamp_t;
+	Current_Time_String:STRING;
+	Time_Del_2_Year:STRING;
+	Time_Del_2_Month:STRING;
+	Time_Del_2_Day:STRING;
+	Time_Del_2_Hour:STRING;
+	Time_Del_2_mins:STRING;
+	Time_Del_2_Sec:STRING;
+	Year_String:STRING;
+	Month_String:STRING;
+	Day_String:STRING;
+	Hour_String:STRING;
+	mins_String:STRING;
+	Sec_String:STRING;
+	Len_2_Year:INT;
+	Len_2_Month:INT;
+	Len_2_Day:INT;
+	Len_2_Hour:INT;
+	Len_2_Min:INT;
+	Len_2_Sec:INT;
+	Year:DWORD;
+	Month:DWORD;
+	Day:DWORD;
+	Hour:DWORD;
+	Mins:DWORD;
+	Sec:DWORD;	
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This Program gets the current system time and derives variables for the Year, Month, Day of Month, Hour, Minuit and Second
+	In General this program Converts the System time to a String so that individual elements can derived*)
+		(*An Example of the Data Time variable converted to a string would be
+		DT#2010-9-24-14:30:31 where:
+			Year = 2010
+			Month = 9
+			Day = 24
+			Hour = 14 (2pm since the RTAC will use a 24 hour time basis)
+			Minuets = 30
+			Seconds = 31
+			*)
+	(*Once these variables have parsed and converted into integers from a string, the results are stored into a GVL 
+	(Global Variable List)called TIME_VARS.  It should be configured to the following:
+		VAR_GLOBAL
+			Year:INT;
+			Month:INT;
+			Day:INT;
+			Hour:INT;
+			Mins:INT;
+			Sec:INT;
+		END_VAR
+	*)
+
+Time_current:=Sys_time(); 										(*Get Current System Time*)
+current_time_string:=DT_TO_STRING(time_current.value.dateTime);	(*convert System Time to String to Search in*)
+
+Len_2_Year:=find(current_Time_String,'#'); 						(*Find the number of char to get to the Year reading*)
+time_Del_2_Year:=delete(current_time_string,(len_2_Year+1),0);	(*Delete everything in the string leading up to the Year*)
+Year_String:=left(time_Del_2_Year,4);							(*Delete everything after the digits that represent the Year*)
+Year:=STRING_TO_WORD(Year_String);								(*Convert Year from a String Var to a Integer *)
+
+
+len_2_Month:=find(Time_Del_2_Year,'-');							(*Find the number of char to get to the Month reading*)
+time_Del_2_Month:=delete(time_Del_2_Year,len_2_Month+1,0);		(*Delete everything in the string leading up to the Month*)
+Len_2_Day:=find(time_Del_2_Month,'-');							(*Find the number of char to get to the Day reading*)
+Month_String:=left(time_del_2_month,len_2_day-1);				(*Delete everything after the digits that represent the Month*)
+Month:=STRING_TO_WORD (Month_String);							(*Convert Month from a String Var to a Integer *)
+
+time_Del_2_Day:=delete(Time_Del_2_Month,len_2_Day+1,0);			(*Delete everything in the string leading up to the Day*)
+len_2_hour:=find(time_Del_2_Day,'-');							(*Find the number of char to get to the Hour reading*)
+Day_String:=Left(time_Del_2_Day,len_2_hour-1);					(*Delete everything after the digits that represent the Day*)
+Day:=STRING_TO_WORD(Day_String);								(*Convert Day from a String Var to a Integer *)
+
+time_Del_2_Hour:=delete(time_Del_2_Day,len_2_hour+1,0);			(*Delete everything in the string leading up to the Hour*)
+len_2_min:=find(time_Del_2_Hour,':');							(*Find the number of char to get to the Minuets reading*)
+Hour_String:=left(time_Del_2_Hour,len_2_min-1);					(*Delete everything after the digits that represent the Hour*)
+Hour:=STRING_TO_WORD(Hour_String);								(*Convert Hour from a String Var to a Integer *)
+
+Time_del_2_mins:=delete(time_Del_2_Hour,len_2_min+1,0);			(*Delete everything in the string leading up to the Minuit*)
+len_2_sec:=find(time_Del_2_mins,':');							(*Find the number of char to get to the Seconds reading*)
+mins_string:=left(Time_del_2_mins,len_2_sec-1);					(*Delete everything after the digits that represent the Minuit*)
+mins:=STRING_TO_WORD(mins_string);								(*Convert Minuets from a String Var to a Integer *)
+
+time_del_2_sec:=delete(Time_del_2_mins,len_2_sec+1,0);			(*Delete everything in the string leading up to the Second*)
+sec:=STRING_TO_WORD(time_del_2_sec);							(*Convert Seconds from a String Var to a Integer *)
+
+(*Output to the GVL named Calender*)
+Calender.Day:=Day;
+Calender.Hour:=Hour;
+Calender.Mins:=Mins;
+Calender.Month:=Month;
+Calender.Sec:=Sec;
+Calender.Year:=Year;]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

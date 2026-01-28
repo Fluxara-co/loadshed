@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>HMI_LSP_DATA</Name>
+    <Content><![CDATA[TYPE HMI_LSP_DATA :
+STRUCT
+	
+	LOAD:ARRAY[1..nLOAD] OF HMI_LOAD_DATA;					(*load data array for  the load shed  screen of data type LOAD_DATAOUT*)
+	CONTINGENCY:ARRAY[1..nCONT] OF HMI_CONTINGENCY_DATA;	(*Contingency data array for the contingency summary screen of data type*)
+	Disable_LSP_A:BOOL;										(*Disables LSP A *)
+	Disable_LSP_B:BOOL;										(*Disables LSP B *)
+	Test_Mode:BOOL;											(*Test shed *)
+	DataChanged:BOOL;										(*Data changed bit*)
+	Copy_Data_to_Remote_LSP:BOOL;
+	HMI_InitialReadComplete:BOOL;							(*HMI initial read complete*)
+	UF_L1_Load_To_Shed:REAL;								(*Level 1 load to shed*)
+	UF_L2_Load_To_Shed:REAL;								(*level 2 load to shed*)
+	Priority_List: ARRAY[1..47] OF WORD;					(*load priority from HMI*)
+	ENABLE_LSP:BOOL;
+	DISABLE_LSP:BOOL;
+	CLEAR:BOOL;
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

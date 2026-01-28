@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>GEN_kVAR_Data</Name>
+    <Content><![CDATA[TYPE GEN_kVAR_Data :
+STRUCT
+	Present_Q	       :REAL; 	(* Measured kW*)
+    Op_Enabled	       :BOOL;	(* Enable/Disable kW Control from PMS HMI *)
+    Ctrl_Mode	       :BOOL;	(* Current Control Mode Maintain or Regulation*)
+    Op_Ctrl_Mode	   :BOOL;	(* Current Control Mode Maintain or Regulation*)
+    Op_Set	           :REAL; 	(*kW base set point entered by user*)
+    Up_Limit	       :REAL; 	(*kW Upper limit*)
+    Low_Limit	       :REAL; 	(*kW Lower limit*)
+    Gen_Mode	       :BOOL;	(*Gen Operation Mode Droop/ISO*)
+    Request_Set	       :REAL; 	(*Set Point calculated by GCS*)
+    Bus_Conn	       :STRING; 	(*Gen Bus Connection*)
+    Brkr_Status	       :BOOL;	(*Gen Brkr Status*)
+    Remote_En	       :BOOL;	(*Gen is in Remote Mode*)
+    Out_of_Band	       :BOOL;	(*Gen Operating within Band*)
+    Max_Capacity	   :BOOL;	(*Gen reaches kW Max Capacity*)
+    Follow_Error	   :BOOL;	(*Excepted Repondes not observerd*)
+    Exct_Not_Respond   :BOOL;	(*Governor not acknowledge AGC Control*)
+    Run_Perm	       :BOOL;	(*Overall AGC healthy*)
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

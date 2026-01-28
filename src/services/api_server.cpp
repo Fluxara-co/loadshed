@@ -453,7 +453,7 @@ void ApiServer::handleServiceStatus(const httplib::Request& req, httplib::Respon
     pImpl->addCorsHeaders(res);
     
     json status = {
-        {"service", "microservice_template"},
+        {"service", "loadshed"},
         {"version", "1.0.0"},
         {"running", pImpl->running_},
         {"initialized", pImpl->initialized_},
@@ -675,7 +675,7 @@ void ApiServer::handleApiInfo(const httplib::Request& req, httplib::Response& re
     pImpl->addCorsHeaders(res);
     
     json info = {
-        {"service_name", "microservice_template"},
+        {"service_name", "loadshed"},
         {"version", "1.0.0"},
         {"api_version", "v1"},
         {"api_prefix", pImpl->api_prefix_},
@@ -751,7 +751,7 @@ void ApiServer::applyMiddleware(const httplib::Request& req, httplib::Response& 
     pImpl->addCorsHeaders(res);
     
     // Add standard headers
-    res.set_header("X-Service-Name", "microservice_template");
+    res.set_header("X-Service-Name", "loadshed");
     res.set_header("X-API-Version", "1.0");
 }
 

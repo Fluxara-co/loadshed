@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>Time_Stamp</Name>
+    <Content><![CDATA[TYPE Time_Stamp :
+STRUCT
+	Year:UINT;		(*year of ??? *)
+	Day:WORD;		(*day of month*)
+	Hour:BYTE;		(*hour of day*)
+	Minute:BYTE;	(*minute of hour*)
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

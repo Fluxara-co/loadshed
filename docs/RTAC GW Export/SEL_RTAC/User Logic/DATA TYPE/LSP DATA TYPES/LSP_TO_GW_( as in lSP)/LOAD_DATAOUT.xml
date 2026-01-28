@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LOAD_DATAOUT</Name>
+    <Content><![CDATA[TYPE LOAD_DATAOUT :
+STRUCT
+	(***********************************************************************************************************************
+										BITPACKING INFO FOR LOAD_DATA
+	********************************************************************************************************************************
+	BIT 0 :			Status					Status of this Contingency Good/Bad
+	BIT 1 :			TEST_SHED				Enough load has been identified for shed 
+	BIT 2 : 		VALUE_OVERRIDE			This contingency is enabled 
+	BIT 3 : 		TRIP					The contingency disable command from the HMI
+	BIT 4 : 		BAD_STATUS				Communication alarm	
+	BIT 5 : 		ALARM					Load alarm
+	***************************************************************************************************************)
+	LOAD_DATA			:DWORD;				(*stauts*)
+	BUS_CONN			:DWORD;				(*bus connection*)
+	VALUE_ESTIMATED		:REAL;				(*Estimated value*)
+	PRESENT_P			:REAL;				(*live real power*)
+	NAME				:STRING(32);		(*load name*)
+	VALUE				:REAL;				(*Measured value*)
+	SELECTED			:BOOL;				(*selected to shed*)
+	Load_Num			:INT;				(*number of the specific load*)
+	Present_Q			:REAL;				(*live reactive power - unused*)
+	INHIBIT				:BOOL;				(*specifies whether load is available to shed or not *)
+	SHED				:BOOL;				(*specifies whether a load is shed or not*)
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <GVL>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>Project_Variables</Name>
+    <Content><![CDATA[VAR_GLOBAL
+		
+(********************* STARTUP AND INITIAL CHECK VARIABLE DECLARATIONS **************************)
+	GW_BootingUp		:BOOL;						(*To Indicate RTAC - PowerMAX Gateway is Booting Up*)
+	GW_BootUpComplete	:BOOL;						(*Indicates FEP Booted up and can read good data from LSPs*)
+	LSP_GW_ReadyToUse	:BOOL;						(*Indicates FEP  is Ready To use - In other words before running core logic please make *)
+	GCS_GW_ReadyToUse    :BOOL;
+  	INIT_LSP_B3_SETPOINTS:BOOL:=TRUE;				(*Initialize LSP B3 data*)
+	INIT_LSP_B_SETPOINTS:BOOL:=TRUE;				(*Initialize LSP B data*)
+	INIT_AGC_B3_SETPOINTS:BOOL:=TRUE;				(*Initialize AGC B3 data*)
+	INIT_AGC_B_SETPOINTS:BOOL:=TRUE;				(*Initialize AGC B data*)
+	LSP_Initialize_SetPoints_Complete :BOOL;	
+	
+(******************************** SET POINT DISCREPANCY   ***************************************)	
+	
+	DISCREPANCY_Pickup_time:TIME:=T#30S;
+	DISCREPANCY_Dropout_time:TIME:=T#30S;
+	GW_DISCREPANCY_ALARM:BOOL; 						(*Set to TRUE when setpoints between FEPs are different*)
+	DISCREPANCY_ALARM:BOOL;
+	
+(********************************* LSP VARIABLE DECLARATIONS ***********************************)
+	
+	Shedtime:TIME := T#10S;							(*Shed time for Test Shed *)		
+	LSP_SELECT:BOOL:=FALSE;							(*LSPA- 0; LSPB-1*)
+//	GW_SOURCE:INT;									(*GW_B3-1 ; GW_B-2*)
+	CONT_BUS_CONN_A_ARRAY:ARRAY[1..nCONT] OF INT;
+		
+(********************************* ALARM DECLARATIONS ***************************************)
+
+	LSP_B_COM:BOOL;									(*LSP B comm alarm*)
+	LSP_B3_COM:BOOL;								(*LSP B3 comm alarm*)
+	GCS_B3_COM:BOOL;								(*GCS B3 comm alarm*)
+	GCS_B_COM:BOOL;									(*GCS B comm alarm*)
+	GW_B_COM:BOOL;									(*FEP B comm alarm*)
+	GW_B3_COM:BOOL;									(*FEP B3 comm alarm*)
+	IOSRV1_COM:BOOL;								(*IO server 1 comm alarm*)
+	IOSRV2_COM:BOOL;								(*IO server 2 comm alarm*)
+	GW_B3_TO_IOSRV01_WD:DWORD;						(*IO Server 1 comm fail*)
+	GW_B_TO_IOSRV01_WD:DWORD;						(*IO Server 1 comm fail*)
+	HMIA_To_GW_B3_WD:INT;							(*WW INTOUCH A to Gateway B3 watchdog*)
+	HMIB_To_GW_B3_WD:INT;							(*WW INTOUCH B to Gateway B3 watchdog*)
+	LSPB3_ENABLED:BOOL;
+	LSPB_ENABLED:BOOL;	
+	
+(**************************************************************************************************************)		
+(**************************************************************************************************************)	
+(********************* SM ADDED  *********************************)	
+
+	IOSRV_TO_GWB_LSP_DATA : IOSRV_TO_GWB_LSP_DATA;
+	
+	LOCAL_LSP_GW_IN			:LSP_HMI_DATA;
+	GWB_TO_IOSRV_LSP_DATA	:GWB_TO_IOSRV_LSP_DATA;
+(**************************************************************************************************************)	
+(**************************************************************************************************************)	
+	
+	LOAD_BUS_CONN_A_ARRAY:ARRAY[1..nLOAD] OF INT;
+	LSP_HMI_InitReadComplete:BOOL;
+
+	
+(********************************* PSORT DECLARATIONS ***************************************)	
+
+	Priority_List_SET:ARRAY[1..nLOAD] OF WORD;			(*Priority list array*)
+	PriorityChanged : BOOL;								(*Priority changed bit*)
+	
+(*******************************GCS VARIABLES***********************************************)
+	LOCAL_GCS_GW_IN:GCS_to_GW;
+	GCS_B_READCOMPLETE:BOOL;
+	GCS_B3_READCOMPLETE:BOOL;
+	GCS_Initialize_SetPoints_Complete:BOOL;
+	INIT_GCS_B3_COMPLETE:BOOL;
+	INIT_GCS_B_COMPLETE:BOOL;
+	GCSB_IOSERVER_READY:BOOL;
+	GCSB3_IOSERVER_READY:BOOL;
+	
+
+END_VAR
+VAR_GLOBAL RETAIN
+	GW_GCSB3_BOOL:ARRAY[1..100] OF TP;
+	GW_GCSB_BOOL:ARRAY[1..100] OF TP;
+END_VAR]]></Content>
+  </GVL>
+</RTACModule>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>HMI_CONTINGENCY_DATA</Name>
+    <Content><![CDATA[TYPE HMI_CONTINGENCY_DATA :
+STRUCT
+	OPERATOR_DISABLE:BOOL;  		(*contingency disable command from the HMI*)
+	IRM_MAX:REAL;				  		(*MAXMIMUM LIMIT FOR THE IRM VALUES FROM THE HMI*)
+	IRM_Operator:REAL;			  		(*Step load capability of the generator set by the operator*)
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

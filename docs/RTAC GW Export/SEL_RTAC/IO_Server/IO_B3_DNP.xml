@@ -1,0 +1,1736 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <Device>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>IO_B3</Name>
+    <Manufacturer>Any</Manufacturer>
+    <Model>Other</Model>
+    <Connection>
+      <Protocol>DNPServer</Protocol>
+      <ConnectionType>Ethernet</ConnectionType>
+      <SettingPages>
+        <SettingPage>
+          <Name>Settings</Name>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Server DNP Address</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>2</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Client DNP Address</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>0</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Allow Anonymous DNP IP Clients</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Client IP Addresses</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>10.3.0.4,10.3.1.4</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Server IP Port</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>20001</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Allow Unsolicited Messages</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Unsolicited Messaging Retries</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>3</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>UTC Offset</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>0</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Enabled</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Unsolicited Message Offline Timeout</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>60</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Enable Unsolicited Messaging At Power Up</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Delay in Time Sync Request</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>120</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Application Confirmation Timeout</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>5</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>SBO Control Timeout</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>4000</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Event Queue Transmit Trigger Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>20</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Event Queue Transmit Max Age</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>10</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Analog Event Buffer Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>300</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Analog Event Buffer Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Most Recent</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Binary Event Buffer Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>1000</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Binary Event Buffer Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>SOE</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Double Bit Event Buffer Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>1000</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Double Bit Event Buffer Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Most Recent</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Counter Event Buffer Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>300</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Counter Event Buffer Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Most Recent</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Frozen Counter Event Buffer Size</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>300</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Frozen Counter Event Buffer Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Most Recent</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Counter Class 0 Report Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Running Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Accept Client Time Sync</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Link Status Inactive Period / Heartbeat</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>120</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Link Status Timeout</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>0</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Local Freeze</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transport Protocol</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>TCP</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>UDP/IP Response Port</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>0</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Generate Event On Quality Change</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST System Settings</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Offset</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>60</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Start Week-of-Month</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>Second</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Start Day-of-Week</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>Sunday</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Start Month</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>March</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Start Time</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>02:00</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Stop Week-of-Month</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>First</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Stop Day-of-Week</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>Sunday</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Stop Month</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>November</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>DST Stop Time</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>02:00</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Map Name</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>GWB_DNP</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+        </SettingPage>
+        <SettingPage>
+          <Name>POU Pin Settings</Name>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Absolute_Time_Obj_50_Var_4_Index_0</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>timeStamp_t</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value></Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Absolute_Time_Obj_50_Var_4_Index_1</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>timeStamp_t</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value></Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Accept_Client_Time_Sync_Obj_50</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>TRUE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Allow_Client_Control_Of_Unsolicited_Messaging_Fcn_20_21</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Application_Confirmation_Timeout_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Data_Link_Timeout_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Direct_Transparent_Connection</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Disable_Controls</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Disable_Tag_Updates</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>EN</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>TRUE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>ENO</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Force_Buffer_Overflow_IIN_Bit</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Force_Device_Trouble_IIN_Bit</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Freeze</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Interval_Count_Obj_50_Var_4_Index_0</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Interval_Count_Obj_50_Var_4_Index_1</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Interval_Units_Obj_50_Var_4_Index_0</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>intvlUnits_t</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>intvl_disabled</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Interval_Units_Obj_50_Var_4_Index_1</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>intvlUnits_t</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>intvl_disabled</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Invalid_Function_Block_Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Message_Failure</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>TRUE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Message_Failure_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Message_Received_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Message_Sent_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Message_Success_Count</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>UDINT</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>0</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Offline</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>TRUE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Request_Time_Sync_IIN_1_4_Need_Time</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Request_Time_Sync_IIN_1_4_Need_Time_Period</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>TIME</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>T#120M</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Reset_Statistics</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Stop_Unsolicited_Messages</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Input</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting>
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+          <Row>
+            <Setting>
+              <Column>Visible</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Name</Column>
+              <Value>Unsolicited_Messaging_Currently_Enabled</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Type</Column>
+              <Value>Output</Value>
+            </Setting>
+            <Setting>
+              <Column>Pin Point Type</Column>
+              <Value>BOOL</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Default Value</Column>
+              <Value>FALSE</Value>
+            </Setting>
+          </Row>
+        </SettingPage>
+      </SettingPages>
+      <ControllerPOU><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Single xml:space="preserve" Type="{6f9dac99-8de1-4efc-8465-68ac443b7d08}" Method="IArchivable">
+  <Single Name="SpecialFunc" Type="{0db3d7bb-cde0-4416-9a7b-ce49a0124323}">None</Single>
+  <Single Name="Implementation" Type="{32d3375e-c010-41e2-9e43-b2fbf4f2b374}" Method="IArchivable">
+    <Single Name="Items" Type="{cd57ba20-558b-4b98-96c1-73c6000c3087}" Method="IArchivable">
+      <List2 Name="InnerList">
+        <Single Type="{f5becf35-b1f3-4274-b411-81d4b63a1516}" Method="IArchivable">
+          <Single Name="Inputs" Type="{cd57ba20-558b-4b98-96c1-73c6000c3087}" Method="IArchivable">
+            <List2 Name="InnerList">
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">11</Single>
+              </Single>
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">13</Single>
+              </Single>
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">15</Single>
+              </Single>
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">17</Single>
+              </Single>
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">19</Single>
+              </Single>
+              <Single Type="{c994f6e0-311a-4a1c-bc38-75fe34892406}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="IsExtensiblePin" Type="bool">False</Single>
+                <Single Name="ProcessValue" Type="string"></Single>
+                <Single Name="Access" Type="{88453c7d-d652-4a27-a1b0-a1953be49a5c}">None</Single>
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">21</Single>
+              </Single>
+            </List2>
+          </Single>
+          <Single Name="Outputs" Type="{cd57ba20-558b-4b98-96c1-73c6000c3087}" Method="IArchivable">
+            <List2 Name="InnerList">
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">23</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">25</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">27</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">29</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">31</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">33</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">35</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">37</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">39</Single>
+              </Single>
+              <Single Type="{65582d84-cf18-4ca0-be59-bf5a3d00b8f8}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Negated" Type="bool">False</Single>
+                <Single Name="SetReset" Type="{24449d48-c96a-49c4-b9d1-a4ea34aedce3}">None</Single>
+                <Single Name="SetResetRef" Type="{233bc97c-69fe-4d29-b40e-a9a9b854044e}">None</Single>
+                <Single Name="PretendsToBeConnected" Type="bool">False</Single>
+                <Single Name="Id" Type="long">41</Single>
+              </Single>
+            </List2>
+          </Single>
+          <Single Name="Texts" Type="{cd57ba20-558b-4b98-96c1-73c6000c3087}" Method="IArchivable">
+            <List2 Name="InnerList">
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">EN</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">12</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Disable_Tag_Updates</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">14</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Force_Device_Trouble_IIN_Bit</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">16</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Force_Buffer_Overflow_IIN_Bit</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">18</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Disable_Controls</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">20</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Reset_Statistics</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">22</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">ENO</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">24</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Offline</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">26</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Message_Sent_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">28</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Message_Received_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">30</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Message_Failure</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">32</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Message_Failure_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">34</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Message_Success_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">36</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Application_Confirmation_Timeout_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">38</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Data_Link_Timeout_Count</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">40</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">Direct_Transparent_Connection</Single>
+                <Single Name="Modifiable" Type="bool">True</Single>
+                <Single Name="Id" Type="long">42</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">IO_B3_DNP_POU_TYPE</Single>
+                <Single Name="Modifiable" Type="bool">False</Single>
+                <Single Name="Id" Type="long">9</Single>
+              </Single>
+              <Single Type="{72f2b13f-5349-4a8a-bbe6-2bccf3f42179}" Method="IArchivable">
+                <Single Name="Bounds" Type="string">0, 0, 0, 0</Single>
+                <Null Name="ElementGroupId" />
+                <Single Name="Text" Type="string">IO_B3_DNP_POU</Single>
+                <Single Name="Modifiable" Type="bool">False</Single>
+                <Single Name="Id" Type="long">10</Single>
+              </Single>
+            </List2>
+          </Single>
+          <Single Name="Parameters" Type="{cd57ba20-558b-4b98-96c1-73c6000c3087}" Method="IArchivable">
+            <List2 Name="InnerList" />
+          </Single>
+          <Null Name="PreparedParameters" />
+          <Single Name="PageArea" Type="int">0</Single>
+          <Single Name="Bounds" Type="string">6, 2, 0, 0</Single>
+          <Null Name="ElementGroupId" />
+          <Single Name="EnEno" Type="bool">False</Single>
+          <Single Name="KindOfCall" Type="{77f43dfe-ca6a-4869-828f-7609d8ed6ea6}">FunctionBlock</Single>
+          <Single Name="ContainsExtensibleInputs" Type="bool">False</Single>
+          <Single Name="Forced" Type="bool">False</Single>
+          <Single Name="IsFeedbackStart" Type="bool">False</Single>
+          <Single Name="OwningPageId" Type="long">-1</Single>
+          <Single Name="Id" Type="long">8</Single>
+        </Single>
+      </List2>
+    </Single>
+    <Null Name="ParameterInitializationMethodGenerator" />
+    <Single Name="RoutingPathTable" Type="{4b8bcc79-5980-4868-b49e-005a8148859b}" Method="IArchivable">
+      <Dictionary2 Name="InnerDictionary" />
+    </Single>
+    <Single Name="AutoSizeCanvas" Type="bool">True</Single>
+    <Single Name="CanvasWidth" Type="int">2</Single>
+    <Single Name="CanvasHeight" Type="int">2</Single>
+    <Single Name="EditorConfiguration" Type="{4f1e43e3-0667-4421-ad70-d7adf37c167a}" Method="IArchivable">
+      <Single Name="HideNamespaces" Type="bool">False</Single>
+    </Single>
+    <Single Name="AreElementsSpaceOptimized" Type="bool">False</Single>
+  </Single>
+  <Single Name="Interface" Type="{a9ed5b7e-75c5-4651-af16-d2c27e98cb94}" Method="IArchivable">
+    <Single Name="TextDocument" Type="{f3878285-8e4f-490b-bb1b-9acbb7eb04db}" Method="IArchivable">
+      <Array Name="TextLines" Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}">
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">113</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">PROGRAM IO_B3_DNP_Controller</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">114</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">VAR</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">115</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">END_VAR</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">116</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">VAR_EXTERNAL</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">117</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">	IO_B3_DNP_POU:IO_B3_DNP_POU_TYPE;</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">118</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string">END_VAR</Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">119</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">120</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">121</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">122</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">123</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">124</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">125</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">126</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+        <Single Type="{a5de0b0b-1cb5-4913-ac21-9d70293ec00d}" Method="IArchivable">
+          <Single Name="Id" Type="long">1</Single>
+          <Null Name="Tag" />
+          <Single Name="Text" Type="string"></Single>
+        </Single>
+      </Array>
+    </Single>
+  </Single>
+  <Single Name="UniqueIdGenerator" Type="string">126</Single>
+  <Single Name="POULevel" Type="{8e575c5b-1d37-49c6-941b-5c0ec7874787}">Standard</Single>
+  <List Name="ChildObjectGuids" Type="System.Collections.ArrayList" />
+  <Single Name="AddAttributeSubsequent" Type="bool">False</Single>
+</Single>]]></ControllerPOU>
+    </Connection>
+  </Device>
+</RTACModule>

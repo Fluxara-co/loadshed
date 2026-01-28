@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>PCHECK</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK PCHECK
+
+VAR_INPUT
+	List_In: ARRAY[1..nLOAD] OF WORD;
+	ENABLE	:	BOOL	;
+
+END_VAR
+VAR_OUTPUT
+	Max_Item: WORD;
+END_VAR
+VAR
+	i: WORD;
+END_VAR]]></Interface>
+      <Implementation><![CDATA[IF ENABLE THEN (*SORTING WILL BE DISABLED WHEN A DISCREPANCY BETWEEN LSPs IS DETECTED*)
+
+	(* Determine the largest priority for use later to process the loads to be shed *)
+	Max_Item:=0;
+	FOR i := 1 TO INT_TO_WORD(nLOAD) DO		(* Each Load *)
+		IF List_In[i] > Max_Item THEN
+			Max_Item:=List_In[i];
+		END_IF;
+	END_FOR;
+	(* The priority should never be greater than 80. *)
+	IF Max_Item > INT_TO_WORD(nLOAD) THEN
+		Max_Item:=INT_TO_WORD(nLOAD);
+	END_IF;
+END_IF]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

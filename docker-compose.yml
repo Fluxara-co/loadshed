@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  device-dnp3-service:
+  loadshed:
     build: .
-    container_name: device-dnp3-service
+    container_name: loadshed
     ports:
-      - "8086:8080"  # Process Manager API
+      - "8080:8080"  # LoadShed API
     environment:
       - MQTT_BROKER_HOST=mosquitto
       - MQTT_BROKER_PORT=1883

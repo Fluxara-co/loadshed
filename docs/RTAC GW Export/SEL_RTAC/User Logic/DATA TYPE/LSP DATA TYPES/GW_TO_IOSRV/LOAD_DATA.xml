@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LOAD_DATA</Name>
+    <Content><![CDATA[TYPE LOAD_DATA :
+STRUCT
+
+	Status:BOOL;
+	Test_Shed:BOOL;
+	Value_Override:BOOL;
+	Trip:BOOL;
+	Bad_Status:BOOL;
+	Alarm:BOOL;
+	
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <ProjectInfo>
+    <ExportSource>
+      <Devices>
+        <Device>
+          <Schema>18</Schema>
+          <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+          <FolderName>SEL_RTAC</FolderName>
+        </Device>
+      </Devices>
+      <POUs>
+        <FolderName>POUs</FolderName>
+      </POUs>
+    </ExportSource>
+    <Description><![CDATA[REVISION                          DATE                        AUTHOR                                                COMMENTS
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0.1                                   08/21/2014               A.SRI                                                       Initial Creation
+0.2                                   08/20/2015               A.SRI                                                       Updated LSP MAP.Fixed PSORT
+0.3                                   08/22/2015               A.SRI                                                       Updated to current
+0.4                                   08/24/2015               A.SRI                                                       Fixed NGV COB IDs and IP Addresses to establish comms.Updated Test shed_trip logic.
+0.5                                   09/01/2015               A.SRI                                                       Fixed the Load KW over ride logic
+0.6                                   10/15/2015               SM                                                           Updated logic for remnant data
+0.7                                   11/03/2015               SM                                                           Updated rev and as left settings in SIM-GW RTAC B3
+0.8                                   12/102/2015            A.SRI                                                       UPDATED THE SETTINGS TO READ AND SER AVR RAMP RATE FOR B2 AND B GENERATORS  
+0.9                                   12/16/2015              A.SRI                                                       UPDATED DNP MAP WITH 1600,1610,1620,1750 COMMON TRIP
+0.10                                 12/17/2015              A.SRI                                                       UPDATED THE GCS TO GATEWAY MAPPING
+0.11                                  01/13/2016             A.SRI                                                      UPDATED THE GW TO LSP MAPPING FOR LOAD 8
+0.12                                  01/16/2016             A.SRI                                                      LSP IN TEST MODE WAS ADDED TO THE DNP MAP TO IO SERVER
+0.13                                  01/19/2016             A.SRI                                                      ADDED CPU BURDEN PERCENT
+0.14                                  07/30/2016              SM                                                           Updated during Trip 4 commissioning
+0.15                                  08/04/2016              SM                                                           Updated to check B3 values
+0.16                                  08/05/2016              SM                                                           Updated onsite 
+
+                                                                                                                                         ]]></Description>
+  </ProjectInfo>
+</RTACModule>

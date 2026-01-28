@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>IO_to_GW</Name>
+    <Content><![CDATA[TYPE IO_to_GW :
+STRUCT
+    
+// Automatic Generation Control related //
+	
+	GEN_kW_Data_Array:ARRAY[1..6] OF GEN_kW_Data;		(*contingency data for the HMI*)
+	GEN_kVAR_Data_Array:ARRAY[1..6] OF GEN_kVAR_Data;   (*contingency data for the HMI*)
+	Disable_AGCA:BOOL;									(*disable controller bit from the HMI*)
+	Disable_AGCB:BOOL;									(*disable controller bit from the HMI*)
+	
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

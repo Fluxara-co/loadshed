@@ -1,0 +1,165 @@
+<RTACModule>
+  <NavigatorLayout Name="P10338_GW_B_20160805_Rev0.16">
+    <Items>
+      <Item Name="Extensions" />
+      <Item Name="SEL_RTAC">
+        <Items>
+          <Item Name="IO_Server" IsFolder="true">
+            <Items>
+              <Item Name="IO_B3_DNP" />
+            </Items>
+          </Item>
+          <Item Name="Tag Processor" />
+          <Item Name="Tags" />
+          <Item Name="System" IsFolder="true">
+            <Items>
+              <Item Name="Main Controller" />
+              <Item Name="System_Time_Control" />
+              <Item Name="SystemTags" />
+              <Item Name="Contact I/O" />
+            </Items>
+          </Item>
+          <Item Name="User Logic" IsFolder="true">
+            <Items>
+              <Item Name="DATA TYPE" IsFolder="true">
+                <Items>
+                  <Item Name="GCS DATA TYPES" IsFolder="true">
+                    <Items>
+                      <Item Name="GCS_to_GW" />
+                      <Item Name="GW_to_GCS" />
+                      <Item Name="GEN_kW_Data" />
+                      <Item Name="GEN_kVAR_Data" />
+                      <Item Name="IO_to_GW" />
+                      <Item Name="GW_to_IO" />
+                    </Items>
+                  </Item>
+                  <Item Name="LSP DATA TYPES" IsFolder="true">
+                    <Items>
+                      <Item Name="LSP_TO_GW_( as in lSP)" IsFolder="true">
+                        <Items>
+                          <Item Name="CONTINGENCY_DATAOUT" />
+                          <Item Name="LOAD_DATAOUT" />
+                          <Item Name="HMI_IED_Alarms" />
+                          <Item Name="Time_Stamp" />
+                          <Item Name="LSP_HMI_DATA" />
+                        </Items>
+                      </Item>
+                      <Item Name="GW_TO_IOSRV" IsFolder="true">
+                        <Items>
+                          <Item Name="GWB_TO_IOSRV_LSP_DATA" />
+                          <Item Name="GW_CONTINGENCY_DATA" />
+                          <Item Name="LOAD_DATA" />
+                          <Item Name="CONT_DATA" />
+                          <Item Name="LSP_Alarms" />
+                          <Item Name="GW_to_GW" />
+                        </Items>
+                      </Item>
+                      <Item Name="IOSRV_TO_GW" IsFolder="true">
+                        <Items>
+                          <Item Name="IOSRV_TO_GWB_LSP_DATA" />
+                        </Items>
+                      </Item>
+                      <Item Name="GW_TO_LSP(as in LSP)" IsFolder="true">
+                        <Items>
+                          <Item Name="HMI_LSP_DATA" />
+                          <Item Name="HMI_LOAD_DATA" />
+                          <Item Name="HMI_CONTINGENCY_DATA" />
+                        </Items>
+                      </Item>
+                    </Items>
+                  </Item>
+                </Items>
+              </Item>
+              <Item Name="POUs" IsFolder="true">
+                <Items>
+                  <Item Name="P00_Startup" />
+                  <Item Name="P00_1_Initialize_SetPoints_LSP" />
+                  <Item Name="P01_Main_Task" />
+                  <Item Name="P02_Alarms" />
+                  <Item Name="P03_DATA_SELECTION" />
+                  <Item Name="P04_MAP_LSP_TO_GW_DATA" />
+                  <Item Name="P05_MAP_GCS_GW_DATA" />
+                  <Item Name="P06_MAP_GW_TO_IOSRV_LSP_DATA" />
+                  <Item Name="P08_SP_DISCREPANCY_CHECK" />
+                  <Item Name="P09_MAP_IOSRV_TO_GW_LSP_DATA" />
+                  <Item Name="P11_MAP_GW_TO_LSP_DATA" />
+                  <Item Name="P12_MAP_GW_GCSB3_DATA" />
+                  <Item Name="P13_MAP_GW_GCSB_DATA" />
+                  <Item Name="FUNCTION BLOCKS" IsFolder="true">
+                    <Items>
+                      <Item Name="PSORT" />
+                      <Item Name="IEDLOSSC" />
+                      <Item Name="SHED_FLAG" />
+                      <Item Name="XPOINT_CALC" />
+                      <Item Name="START_PROC" />
+                      <Item Name="Quality" />
+                      <Item Name="Calender" />
+                      <Item Name="EXTRACT" />
+                      <Item Name="BUS_CON_DECODE" />
+                      <Item Name="KW_UPPER_LIMIT" />
+                      <Item Name="PCHECK" />
+                      <Item Name="FN_GW_GCS" />
+                      <Item Name="INIT_GCS" />
+                      <Item Name="IO_TO_LSPB3" />
+                      <Item Name="IO_TO_LSPB" />
+                    </Items>
+                  </Item>
+                </Items>
+              </Item>
+              <Item Name="Resources" IsFolder="true">
+                <Items>
+                  <Item Name="Global Variables" IsFolder="true">
+                    <Items>
+                      <Item Name="Project_Variables" />
+                      <Item Name="CONSTANTS" />
+                      <Item Name="LSP_COMMANDS_SET" />
+                    </Items>
+                  </Item>
+                  <Item Name="DNP MAP" IsFolder="true">
+                    <Items>
+                      <Item Name="GWB_DNP" />
+                    </Items>
+                  </Item>
+                  <Item Name="NGVL" IsFolder="true">
+                    <Items>
+                      <Item Name="LSP_B3" IsFolder="true">
+                        <Items>
+                          <Item Name="GW_B_TO_LSP_B3_NGVL" />
+                          <Item Name="LSP_B3_TO_GW_B_NGVL" />
+                        </Items>
+                      </Item>
+                      <Item Name="LSP_B" IsFolder="true">
+                        <Items>
+                          <Item Name="GW_B_TO_LSP_B_NGVL" />
+                          <Item Name="LSP_B_TO_GW_B_NGVL" />
+                        </Items>
+                      </Item>
+                      <Item Name="AGC_B3" IsFolder="true">
+                        <Items>
+                          <Item Name="GW_B_TO_GCS_B3_NGVL" />
+                          <Item Name="GCS_B3_TO_GW_B_NGVL" />
+                        </Items>
+                      </Item>
+                      <Item Name="AGC_B" IsFolder="true">
+                        <Items>
+                          <Item Name="GW_B_TO_GCS_B_NGVL" />
+                          <Item Name="GCS_B_TO_GW_B_NGVL" />
+                        </Items>
+                      </Item>
+                      <Item Name="GW B" IsFolder="true">
+                        <Items>
+                          <Item Name="GWB_TO_GW_B3_NGVL" />
+                          <Item Name="GWB3_TO_GWB_NGVL" />
+                        </Items>
+                      </Item>
+                    </Items>
+                  </Item>
+                </Items>
+              </Item>
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+    </Items>
+  </NavigatorLayout>
+</RTACModule>

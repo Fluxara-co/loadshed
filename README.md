@@ -1,6 +1,6 @@
-# C++ Microservice Template
+# LoadShed Service
 
-A production-ready C++ microservice shell with HTTP API, MQTT connectivity, and service lifecycle management.
+A production-ready C++ microservice for load shedding management with HTTP API, MQTT connectivity, and service lifecycle management.
 
 ## Features
 
@@ -15,7 +15,7 @@ A production-ready C++ microservice shell with HTTP API, MQTT connectivity, and 
 ## Directory Structure
 
 ```
-cpp-microservice-template/
+loadshed/
 ├── src/
 │   ├── main.cpp              # Application entry point (customize here)
 │   ├── services/             # Copied infrastructure services
@@ -47,7 +47,7 @@ make
 ### 2. Run
 
 ```bash
-./microservice_template
+./loadshed
 ```
 
 ### 3. Test API
@@ -186,11 +186,9 @@ This template can be used to build:
 
 ## Next Steps
 
-1. Copy this template to your new service directory
-2. Rename the service (find/replace "microservice_template")
-3. Implement your business logic in `src/core/`
-4. Update configuration
-5. Build and run!
+1. Implement your business logic in `src/core/`
+2. Update configuration
+3. Build and run!
 
 ## License
 

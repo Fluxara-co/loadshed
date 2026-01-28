@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P12_MAP_GW_GCSB3_DATA</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P12_MAP_GW_GCSB3_DATA
+VAR
+	IOSERVER_GCSB3			:ARRAY[1..100] OF REAL;
+	IOSERVER_GCSB3_BOOL		:ARRAY[1..100] OF BOOL;
+	IOSERVER_GCSB3_FN		:FN_GW_GCS;
+	
+	END_VAR
+]]></Interface>
+      <Implementation><![CDATA[IOSERVER_GCSB3[1]:=B3_G1_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[2]:=B3_G1_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[3]:=B3_G1_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[4]:=B3_G2_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[5]:=B3_G2_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[6]:=B3_G2_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[7]:=B2_G1_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[8]:=B2_G1_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[9]:=B2_G1_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[10]:=B2_G2_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[11]:=B2_G2_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[12]:=B2_G2_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[13]:=B2_G3_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[14]:=B2_G3_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[15]:=B2_G3_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[16]:=B_G3_KW_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[17]:=B_G3_KW_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[18]:=B_G3_KW_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[19]:=B3_G1_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[20]:=B3_G1_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[21]:=B3_G1_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[22]:=B3_G2_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[23]:=B3_G2_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[24]:=B3_G2_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[25]:=B2_G1_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[26]:=B2_G1_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[27]:=B2_G1_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[28]:=B2_G2_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[29]:=B2_G2_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[30]:=B2_G2_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[31]:=B2_G3_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[32]:=B2_G3_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[33]:=B2_G3_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[34]:=B_G3_KVAR_Baseset_Point_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[35]:=B_G3_KVAR_Low_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[36]:=B_G3_KVAR_Upp_Reg_limit_Wri_A_B.oper.setmag;
+IOSERVER_GCSB3[37]:=BLK_START_DELAY_TIMER_A_B.oper.setmag;
+IOSERVER_GCSB3[38]:=GEN_B3G1_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[39]:=GEN_B3G2_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[40]:=GEN_B2G1_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[41]:=GEN_B2G2_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[42]:=GEN_B2G3_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[43]:=GEN_BG3_GOV_RR_A_B.oper.setmag;
+IOSERVER_GCSB3[44]:=GEN_B3G1_AVR_A_B.oper.setmag;
+IOSERVER_GCSB3[45]:=GEN_B3G2_AVR_A_B.oper.setmag;
+
+
+IOSERVER_GCSB3_BOOL[2]:=B3_G1_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[3]:=B3_G1_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[5]:=B3_G2_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[6]:=B3_G2_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[8]:=B2_G1_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[9]:=B2_G1_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[11]:=B2_G2_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[12]:=B2_G2_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[14]:=B2_G3_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[15]:=B2_G3_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[17]:=B_G3_KWEnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[18]:=B_G3_KW_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[19]:=B3_G1_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[20]:=B3_G1_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[21]:=B3_G2_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[22]:=B3_G2_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[23]:=B2_G1_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[24]:=B2_G1_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[25]:=B2_G2_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[26]:=B2_G2_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[27]:=B2_G3_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[28]:=B2_G3_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[29]:=B_G3_KVAREnable_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[30]:=B_G3_KVAR_En_ConMode_A_A.operPulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[31]:=GEN_B3G1_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[32]:=GEN_B3G1_START_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[33]:=GEN_B3G1_STOP_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[34]:=GEN_B3G2_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[35]:=GEN_B3G2_START_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[36]:=GEN_B3G2_STOP_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[37]:=GEN_B2G1_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[38]:=GEN_B2G1_START_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[39]:=GEN_B2G1_STOP_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[40]:=GEN_B2G2_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[41]:=GEN_B2G2_START_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[42]:=GEN_B2G2_STOP_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[43]:=GEN_B2G3_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[44]:=GEN_B2G3_START_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[45]:=GEN_B2G3_STOP_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[46]:=GEN_BG3_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[47]:=GEN_BG3_START_CMD_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[48]:=GEN_BG3_STOP_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[49]:=AGC_ENable_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[50]:=ALARM_RESET_TO_GCS_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[51]:=AGC_Master_Disable_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[52]:=VCS_Master_Disable_A_A.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_BOOL[54]:=GEN_B3G1_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[55]:=GEN_B3G2_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[56]:=GEN_B2G1_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[57]:=GEN_B2G2_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[58]:=GEN_B2G3_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[59]:=GEN_BG3_ABORT_UNLOAD_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[60]:=BLK_START_ABORT_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[61]:=BLK_START_DISABLE_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[62]:=BLK_START_ENABLE_CMD_A_A.operpulse.ctlVal ;
+//Added SM -20151015
+IOSERVER_GCSB3_BOOL[63]:=LSPB3_ENABLED OR LSPB_ENABLED;
+IOSERVER_GCSB3_BOOL[64]:=NOT LSPB3_ENABLED AND NOT LSPB_ENABLED ;
+
+IOSERVER_GCSB3_BOOL[65]:=BLK_START_RESET_CMD_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[66]:=GCS_MASTER_DISABLE_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[67]:=B3G1_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[68]:=B3G2_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[69]:=B2G1_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[70]:=B2G2_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[71]:=B2G3_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[72]:=BG3_ALARM_RESET_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[73]:=B3G1_CC_SELECT_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[74]:=B3G2_CC_SELECT_A_A.operpulse.ctlVal ;
+IOSERVER_GCSB3_BOOL[75]:=AGC_ENable_A_B.operpulse.ctlVal ;
+
+IOSERVER_GCSB3_FN.GCS_INIT_COMPLETE	:= INIT_GCS_B3_COMPLETE;
+IOSERVER_GCSB3_FN.IOSERVER_ANALOG	:= IOSERVER_GCSB3;
+IOSERVER_GCSB3_FN.IOSERVER_BOOL		:= IOSERVER_GCSB3_BOOL;
+IOSERVER_GCSB3_FN.GW_GCS			:= NGVL_GW_GCSB3;
+IOSERVER_GCSB3_FN.ENABLE			:= INIT_GCS_B3_COMPLETE;
+IOSERVER_GCSB3_FN();
+
+
+NGVL_GW_GCSB3					:= IOSERVER_GCSB3_FN.NGVL_GW_GCS;
+NGVL_GW_GCSB3.DWORD2.30 := IOSERVER_GCSB3_BOOL[63];
+NGVL_GW_GCSB3.DWORD2.31 := IOSERVER_GCSB3_BOOL[64];]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

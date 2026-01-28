@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>GWB_TO_IOSRV_LSP_DATA</Name>
+    <Content><![CDATA[TYPE GWB_TO_IOSRV_LSP_DATA :
+STRUCT
+		
+	CONTINGENCY_DATA_ARRAY:ARRAY[1..nCONT] OF GW_CONTINGENCY_DATA; 		(*contingency data array for the contingency summary screen of data type*)
+	LOAD_DATA_ARRAY:ARRAY[1..nLOAD] OF LOAD_DATAOUT; 			  		(*load data array for  the load shed  screen of data type LOAD_DATAOUT*)
+	Contingency_Detected1:DWORD; 										(* Indicates whether a contingency is detected or not*)
+	Load_Trip_Outputs:ARRAY[1..4] OF DWORD; 							(*load flags to indicate when a load is shed *)
+	IED_Alarms:HMI_IED_ALARMS;
+	LSP_Alarms:DWORD;													(*LSP Alarms for the LSP Alarm Screen*)
+	LSP_InitialReadComplete:BOOL;										(*upon startup used for initialization of data*)
+	HMI_TEST_MODE:BOOL;
+	Priority_List: ARRAY[1..nLOAD] OF WORD;								(* List of priority numbers for this contingency *)
+	UF_CONTINGENCY_DATA_ARRAY:ARRAY[1..nUFCONT] OF GW_CONTINGENCY_DATA; (*contingency data array for the contingency summary screen of data type*)
+	LoadFlag:ARRAY[1..nLOAD] OF INT;									(*load shed flags*)
+	ContingencyFlag:ARRAY[1..nCONT] OF BOOL;							(*contingency status flags*)
+	CLEAR : BOOL;														(*load shed and contingency status acknowledge*)
+	LSPA_ALARM:BOOL;													(*LSP ALARM*)
+	LSPB_ALARM:BOOL;													(*LSP ALARM*)
+	LSPA_WATCHDOG:DWORD;												(*LSP A to GW A watchdog for diagnostics screen*)
+	LSPB_WATCHDOG:DWORD;												(*LSP B to GW A watchdog for diagnostics screen*)
+	LSPA_DISABLED:BOOL;													(*LSP Disabled*)
+	LSPB_DISABLED:BOOL;													(*LSP Disabled*)
+	LSPA_PRG_VERSION:REAL;												
+	LSPB_PRG_VERSION:REAL;
+	LOAD_DATA:ARRAY[1..nLOAD] OF LOAD_DATA;
+	CONT_DATA:ARRAY[1..nCONT] OF CONT_DATA;
+	UF_CONT_DATA:ARRAY[1..nUFCONT] OF CONT_DATA;
+	UF_L1_Load_To_Shed:REAL;											(*Level 1 load to shed*)
+	UF_L2_Load_To_Shed:REAL;											(*level 2 load to shed*)
+	WATCHDOG:REAL;
+	ALARMS:LSP_Alarms;
+	DFD_CON:INT;
+	OPERATOR_DISABLE_ALARM:BOOL;
+	CLSP_FLAG:BOOL;
+	UFLSP_FLAG:BOOL;
+	LSPB_CONT_DISABLED:BOOL;
+	LSPB_CONT_SATISFIED:BOOL;
+	LSP_TO_HMI_COMMALARM:BOOL;
+	LSPB_OPS_DIS_ALARM:BOOL;
+	TOPO_BKR_STATUS: ARRAY[1..nTOPO] OF BOOL;							(*????????????*)
+	BKR_STATUS: ARRAY[1..20] OF BOOL;									(*????????????*)
+	Block_Timer_Active:BOOL;
+	FEP_B3_CPU_PERCENT:REAL;
+	FEP_B_CPU_PERCENT:REAL;
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

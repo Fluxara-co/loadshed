@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>KW_UPPER_LIMIT</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK KW_UPPER_LIMIT
+VAR
+	DIS_LOGIC:BOOL;
+END_VAR
+VAR_INPUT
+	AGC_KW_LIMIT:REAL;
+	IRM_KW:REAL;
+	PRESENT_P:REAL;
+	
+END_VAR
+VAR_OUTPUT
+	IRM_CALC:REAL;
+	IRM_CORRECTED:BOOL;
+	
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[DIS_LOGIC:=FALSE;
+IRM_CALC:= IRM_KW;
+IRM_CORRECTED:=FALSE;
+
+IF (AGC_KW_LIMIT=0) OR (AGC_KW_LIMIT<PRESENT_P) THEN 
+	DIS_LOGIC:=TRUE;
+
+END_IF
+
+IF (NOT DIS_LOGIC) THEN
+	IF ((IRM_KW+PRESENT_P)> AGC_KW_LIMIT) THEN
+		(*IRM will push the machine outside bounds*)
+		IRM_CALC:=AGC_KW_LIMIT-PRESENT_P;
+		IRM_CORRECTED:=TRUE;
+	END_IF
+END_IF
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

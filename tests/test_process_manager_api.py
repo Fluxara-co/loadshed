@@ -520,7 +520,7 @@ class ProcessManagerAPITester:
             print(f"{Colors.YELLOW}Make sure the service is running:{Colors.RESET}")
             print(f"  docker-compose up -d device-dnp3-service")
             print(f"  OR")
-            print(f"  cd build && ./bin/microservice_template")
+            print(f"  cd build && ./bin/loadshed")
             return
 
         self._print_success("Service is healthy and responding")

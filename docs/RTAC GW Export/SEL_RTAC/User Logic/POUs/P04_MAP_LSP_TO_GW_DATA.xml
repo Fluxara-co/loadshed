@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P04_MAP_LSP_TO_GW_DATA</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P04_MAP_LSP_TO_GW_DATA
+VAR
+	i,j:INT;
+	Inhibit:ARRAY[1..nLOAD] OF BOOL;
+	Select:ARRAY[1..nLOAD] OF BOOL;
+	Temp:BOOL;
+	XPOINT_MAP:XPOINT_CALC;
+	
+	CONT_BUS_CON:BUS_CON_DECODE;
+	UF_Inhibit:ARRAY[1..nLOAD] OF BOOL;
+	UF_Select:ARRAY[1..nLOAD] OF BOOL;
+	LOAD_BUS_CON_A:BUS_CON_DECODE;
+	
+	SHED_FLAGS:SHED_FLAG;
+	CLSP_FLAG_ALARM_A:BOOL;
+	UFLSP_FLAG_ALARM_A:BOOL;
+	CLSP_FLAG_ALARM_B:BOOL;
+	UFLSP_FLAG_ALARM_B:BOOL;
+	CLSP_FLAG_INTLA:SR;
+	UFLSP_FLAG_INTLA:SR;
+	
+	CC1 :SR;
+	CC2 :SR;
+	CC3 :SR;
+	CC4 :SR;
+	CC5 :SR;
+	CC6 :SR;
+	CC7 :SR;
+	CC8 :SR;
+	
+	UF1 :SR;
+	UF2 :SR;
+	UF3 :SR;
+	UF4 :SR;
+	UF5 :SR;
+	UF6 :SR;
+	CPU_BURDEN_PERCENT:DINT;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This program is where the data from the controllers get mapped to the local asset tag  *)
+
+	IF GW_BootUpComplete THEN
+ 
+		GWB_TO_IOSRV_LSP_DATA.DFD_CON												:= LOCAL_LSP_GW_IN.DFD_CONN+32;
+(*********************************************************************************************************************************************)
+(*************************************** CONT SUMMARY  SCREEN  *******************************************************************************)
+(*********************************************************************************************************************************************)
+		 FOR i:=1 TO nCONT DO
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.0 		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.0;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1 		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.2 		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.2;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.3		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.3;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.4 		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.4;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Available_Cap 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Available_Cap;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Current_Max_P 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Current_Max_P;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Inhibit_List 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].IRM_Actual 				:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].IRM_Actual;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].IRM_MAX 				:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].IRM_MAX;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].IRM_Operator 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].IRM_Operator;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Load_to_Shed 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Load_to_Shed;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Measured_Load 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Measured_Load;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P 				:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Present_P;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_Q 				:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Present_Q;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Required_to_Shed 		:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Required_to_Shed;
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Select_List 			:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List;
+			CONT_BUS_CON(BUS_CON_IN_A := LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].LOAD_BUS_CONN ,
+				 			 BUS_CON_OUT_A=> CONT_BUS_CONN_A_ARRAY[i]);		 
+		
+			GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].LOAD_BUS_CONN 			:= INT_TO_DWORD(CONT_BUS_CONN_A_ARRAY[i]);
+
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Status 								:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.0;
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Satisfied 							:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1;
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Enabled 								:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.2;
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Operator_Disable						:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.3;
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Bad_Status 							:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.4;
+			GWB_TO_IOSRV_LSP_DATA.CONT_DATA[i].Alarm 								:= LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.5;
+	
+		END_FOR
+		
+(*********************************************************************************************************************************************)
+(**************************************** LOAD STATUS  SCREEN  *******************************************************************************)
+(*********************************************************************************************************************************************)
+			GWB_TO_IOSRV_LSP_DATA.LSPA_DISABLED										:= LSP_B3_TO_GW_B.LSP_DISABLED_A;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_DISABLED										:= LSP_B_TO_GW_B.LSP_DISABLED_B;
+
+			LSPB3_ENABLED := NOT LSP_B3_TO_GW_B.LSP_Disabled_A AND NOT LSP_B3_COM; // added SM -20151015
+			LSPB_ENABLED  := NOT LSP_B_TO_GW_B.LSP_Disabled_B  AND NOT LSP_B_COM;	// added SM -20151015
+			
+			FOR i:= 1 TO nLOAD DO
+				LOAD_BUS_CON_A(BUS_CON_IN_A := LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].BUS_CONN,
+							 BUS_CON_OUT_A  => LOAD_BUS_CONN_A_ARRAY[i]);
+		
+			END_FOR
+
+			FOR i:=1 TO nLOAD DO
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA_ARRAY						:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA_ARRAY[i].BUS_CONN  			:= INT_TO_DWORD(LOAD_BUS_CONN_A_ARRAY[I]);
+				GWB_TO_IOSRV_LSP_DATA.Priority_List[i]                      := LOCAL_LSP_GW_IN.Priority_List[I];
+				
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Status					:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.0;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Test_Shed 				:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.1;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Value_Override 			:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.2;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Trip 					:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.3;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Bad_Status 				:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.4;
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA[i].Alarm 					:= LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].LOAD_DATA.5;
+	
+				GWB_TO_IOSRV_LSP_DATA.LOAD_DATA_ARRAY[i].PRESENT_P          := LOCAL_LSP_GW_IN.LOAD_DATA_ARRAY[i].PRESENT_P;
+
+			END_FOR
+
+(*********************************************************************************************************************************************)
+(**************************************** DIAGNOSTIC  SCREEN  ********************************************************************************)
+(*********************************************************************************************************************************************)
+			GWB_TO_IOSRV_LSP_DATA.LSPA_PRG_VERSION					:=LSP_B3_TO_GW_B.LSP_VERSION;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_PRG_VERSION					:=LSP_B_TO_GW_B.LSP_VERSION;
+			GWB_TO_IOSRV_LSP_DATA.LSPA_WATCHDOG						:=LSP_B3_GW_B_WD;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_WATCHDOG						:=LSP_B_GW_B_WD;
+			GWB_TO_IOSRV_LSP_DATA.LSP_Alarms						:=LOCAL_LSP_GW_IN.LSP_Alarms;
+			GWB_TO_IOSRV_LSP_DATA.ALARMS.Contingency_Disabled		:=LOCAL_LSP_GW_IN.LSP_Alarms.1;
+			GWB_TO_IOSRV_LSP_DATA.ALARMS.Contingency_Not_Satisfied	:=LOCAL_LSP_GW_IN.LSP_Alarms.2;
+			GWB_TO_IOSRV_LSP_DATA.ALARMS.CONSISTENCY_ALARM			:=LOCAL_LSP_GW_IN.LSP_Alarms.10;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_CONT_DISABLED				:=LSP_B_TO_GW_B.LSP_Alarms.1;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_CONT_SATISFIED				:=LSP_B_TO_GW_B.LSP_Alarms.2;
+			GWB_TO_IOSRV_LSP_DATA.LSPA_ALARM						:=LSP_B3_COM;
+			GWB_TO_IOSRV_LSP_DATA.LSPB_ALARM						:=LSP_B_COM;
+			GWB_TO_IOSRV_LSP_DATA.Block_Timer_Active				:=LOCAL_LSP_GW_IN.Block_Timer_Active;
+			
+		GWB_TO_IOSRV_LSP_DATA.LSPB_OPS_DIS_ALARM	  :=LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[1].CONTINGENCY_DATA.3 OR 
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[2].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[3].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[4].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[5].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[6].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[7].CONTINGENCY_DATA.3 OR
+													  LSP_B_TO_GW_B.CONTINGENCY_DATA_ARRAY[8].CONTINGENCY_DATA.3;
+																
+		GWB_TO_IOSRV_LSP_DATA.OPERATOR_DISABLE_ALARM :=GWB_TO_IOSRV_LSP_DATA.CONT_DATA[1].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[2].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[3].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[4].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[5].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[6].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[7].Operator_Disable OR
+													  GWB_TO_IOSRV_LSP_DATA.CONT_DATA[8].Operator_Disable;
+	
+	GWB_TO_IOSRV_LSP_DATA.Contingency_Detected1	:=LOCAL_LSP_GW_IN.Contingency_Detected1;
+	
+	CLSP_FLAG_ALARM_A								 :=LSP_B3_TO_GW_B.Contingency_Detected1.0 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.1 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.2 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.3 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.4 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.5 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.6 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.7 ;
+	
+	UFLSP_FLAG_ALARM_A								:=LSP_B3_TO_GW_B.Contingency_Detected1.8  OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.9  OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.10 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.11 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.12 OR
+													  LSP_B3_TO_GW_B.Contingency_Detected1.13 ;
+													  
+	CLSP_FLAG_ALARM_B								:=LSP_B_TO_GW_B.Contingency_Detected1.0 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.1 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.2 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.3 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.4 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.5 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.6 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.7 ;
+	
+	UFLSP_FLAG_ALARM_B								:=LSP_B_TO_GW_B.Contingency_Detected1.8  OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.9  OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.10 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.11 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.12 OR
+													  LSP_B_TO_GW_B.Contingency_Detected1.13 ;
+													  
+	CLSP_FLAG_INTLA(SET1:=CLSP_FLAG_ALARM_A OR CLSP_FLAG_ALARM_B,RESET:=IOSRV_TO_GWB_LSP_DATA.CLEAR);
+	GWB_TO_IOSRV_LSP_DATA.CLSP_FLAG:=CLSP_FLAG_INTLA.Q1;
+	
+	UFLSP_FLAG_INTLA(SET1:=UFLSP_FLAG_ALARM_A OR UFLSP_FLAG_ALARM_B,RESET:=IOSRV_TO_GWB_LSP_DATA.CLEAR);
+	GWB_TO_IOSRV_LSP_DATA.UFLSP_FLAG:=UFLSP_FLAG_INTLA.Q1;
+	
+	SHED_FLAGS(LOAD_TRIP_OUTPUTS_IN_A 	:= LSP_B3_TO_GW_B.Load_Trip_Outputs,
+			   LOAD_TRIP_OUTPUTS_IN_B 	:= LSP_B_TO_GW_B.Load_Trip_Outputs,
+			   UF_LOAD_TRIP_OUTPUTS_IN_A:= LSP_B3_TO_GW_B.UF_Load_Trip_Outputs,
+			   UF_LOAD_TRIP_OUTPUTS_IN_B:= LSP_B_TO_GW_B.UF_Load_Trip_Outputs,
+			   CLEAR				 	:= IOSRV_TO_GWB_LSP_DATA.CLEAR,
+			   SHED_FLAGS				=> GWB_TO_IOSRV_LSP_DATA.LoadFlag);
+	
+		CC1(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.0 OR LSP_B_TO_GW_B.Contingency_Detected1.0), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag1.stVal:=CC1.Q1;
+		CC2(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.1 OR LSP_B_TO_GW_B.Contingency_Detected1.1), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag2.stVal:=CC2.Q1;
+		CC3(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.2 OR LSP_B_TO_GW_B.Contingency_Detected1.2), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag3.stVal:=CC3.Q1;
+		CC4(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.3 OR LSP_B_TO_GW_B.Contingency_Detected1.3), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag4.stVal:=CC4.Q1;
+		CC5(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.4 OR LSP_B_TO_GW_B.Contingency_Detected1.4), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag5.stVal:=CC5.Q1;
+		CC6(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.5 OR LSP_B_TO_GW_B.Contingency_Detected1.5), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag6.stVal:=CC6.Q1;
+		CC7(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.6 OR LSP_B_TO_GW_B.Contingency_Detected1.6), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag7.stVal:=CC7.Q1;
+		CC8(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.7 OR LSP_B_TO_GW_B.Contingency_Detected1.7), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag8.stVal:=CC8.Q1;
+	(*
+		UF1(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.8 OR LSP_B_TO_GW_B.Contingency_Detected1.8), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag1.stVal:=UF1.Q1;
+		UF2(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.9 OR LSP_B_TO_GW_B.Contingency_Detected1.9), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag2.stVal:=UF2.Q1;
+		UF3(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.10 OR LSP_B_TO_GW_B.Contingency_Detected1.10), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag3.stVal:=UF3.Q1;
+		UF4(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.11 OR LSP_B_TO_GW_B.Contingency_Detected1.11), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag4.stVal:=UF4.Q1;
+		UF5(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.12 OR LSP_B_TO_GW_B.Contingency_Detected1.12), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag5.stVal:=UF5.Q1;
+		UF6(SET1 := (LSP_B3_TO_GW_B.Contingency_Detected1.13 OR LSP_B_TO_GW_B.Contingency_Detected1.13), RESET := IOSRV_TO_GWB_LSP_DATA.CLEAR);
+		ContingencyFlag6.stVal:=UF6.Q1;
+	*)	
+	   
+	(*********************************************************************************************************************************************)
+	(*************************************** CROSS POINT SCREEN  *********************************************************************************)
+	(*********************************************************************************************************************************************)
+	
+
+	FOR i:=1 TO nCONT DO
+		
+		Select[1] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].0;
+		Select[2] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].1;
+		Select[3] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].2;
+		Select[4] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].3;
+		Select[5] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].4;
+		Select[6] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].5;
+		Select[7] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].6;
+		Select[8] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].7;
+		Select[9] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].8;
+		Select[10] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].9;
+		Select[11] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].10;
+		Select[12] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].11;
+		Select[13] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].12;
+		Select[14] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].13;
+		Select[15] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].14;
+		Select[16] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].15;
+		Select[17] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].16;
+		Select[18] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].17;
+		Select[19] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].18;
+		Select[20] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].19;
+		Select[21] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].20;
+		Select[22] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].21;
+		Select[23] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].22;
+		Select[24] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].23;
+		Select[25] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].24;
+		Select[26] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].25;
+		Select[27] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].26;
+		Select[28] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].27;
+		Select[29] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].28;
+		Select[30] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].29;
+		Select[31] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].30;
+		Select[32] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[1].31;
+		Select[33] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].0;
+		Select[34] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].1;
+		Select[35] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].2;
+		Select[36] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].3;
+		Select[37] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].4;
+		Select[38] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].5;
+		Select[39] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].6;
+		Select[40] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].7;
+		Select[41] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].8;
+		Select[42] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].9;
+		Select[43] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].10;
+		Select[44] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].11;
+		Select[45] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].12;
+		Select[46] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].13;
+		Select[47] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Select_List[2].14;
+		
+		Inhibit[1] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].0;
+		Inhibit[2] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].1;
+		Inhibit[3] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].2;
+		Inhibit[4] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].3;
+		Inhibit[5] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].4;
+		Inhibit[6] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].5;
+		Inhibit[7] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].6;
+		Inhibit[8] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].7;
+		Inhibit[9] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].8;
+		Inhibit[10] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].9;
+		Inhibit[11] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].10;
+		Inhibit[12] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].11;
+		Inhibit[13] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].12;
+		Inhibit[14] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].13;
+		Inhibit[15] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].14;
+		Inhibit[16] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].15;
+		Inhibit[17] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].16;
+		Inhibit[18] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].17;
+		Inhibit[19] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].18;
+		Inhibit[20] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].19;
+		Inhibit[21] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].20;
+		Inhibit[22] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].21;
+		Inhibit[23] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].22;
+		Inhibit[24] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].23;
+		Inhibit[25] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].24;
+		Inhibit[26] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].25;
+		Inhibit[27] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].26;
+		Inhibit[28] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].27;
+		Inhibit[29] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].28;
+		Inhibit[30] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].29;
+		Inhibit[31] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].30;
+		Inhibit[32] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].31;
+		Inhibit[33] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].0;
+		Inhibit[34] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].1;
+		Inhibit[35] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].2;
+		Inhibit[36] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].3;
+		Inhibit[37] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].4;
+		Inhibit[38] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].5;
+		Inhibit[39] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].6;
+		Inhibit[40] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].7;
+		Inhibit[41] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].8;
+		Inhibit[42] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].9;
+		Inhibit[43] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].10;
+		Inhibit[44] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].11;
+		Inhibit[45] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].12;
+		Inhibit[46] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].13;
+		Inhibit[47] :=LOCAL_LSP_GW_IN.CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].14;
+		
+			FOR j:=1 TO 47 DO
+				IF Select[j] THEN
+					GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].X_Point[j]:=2;
+				ELSIF Inhibit[j] THEN
+					GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].X_Point[j]:=1;
+				ELSE
+					GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].X_Point[j] :=0;
+				END_IF
+			END_FOR
+		END_FOR	
+	(*********************************************************************************************************************************************)
+	(*************************************** UF CROSS POINT SCREEN  ******************************************************************************)
+	(*********************************************************************************************************************************************)
+		FOR i:=1 TO nUFCONT DO
+
+		UF_Select[1] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].0;
+		UF_Select[2] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].1;
+		UF_Select[3] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].2;
+		UF_Select[4] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].3;
+		UF_Select[5] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].4;
+		UF_Select[6] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].5;
+		UF_Select[7] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].6;
+		UF_Select[8] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].7;
+		UF_Select[9] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].8;
+		UF_Select[10] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].9;
+		UF_Select[11] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].10;
+		UF_Select[12] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].11;
+		UF_Select[13] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].12;
+		UF_Select[14] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].13;
+		UF_Select[15] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].14;
+		UF_Select[16] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].15;
+		UF_Select[17] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].16;
+		UF_Select[18] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].17;
+		UF_Select[19] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].18;
+		UF_Select[20] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].19;
+		UF_Select[21] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].20;
+		UF_Select[22] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].21;
+		UF_Select[23] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].22;
+		UF_Select[24] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].23;
+		UF_Select[25] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].24;
+		UF_Select[26] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].25;
+		UF_Select[27] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].26;
+		UF_Select[28] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].27;
+		UF_Select[29] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].28;
+		UF_Select[30] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].29;
+		UF_Select[31] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].30;
+		UF_Select[32] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[1].31;
+		UF_Select[33] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].0;
+		UF_Select[34] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].1;
+		UF_Select[35] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].2;
+		UF_Select[36] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].3;
+		UF_Select[37] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].4;
+		UF_Select[38] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].5;
+		UF_Select[39] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].6;
+		UF_Select[40] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].7;
+		UF_Select[41] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].8;
+		UF_Select[42] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].9;
+		UF_Select[43] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].10;
+		UF_Select[44] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].11;
+		UF_Select[45] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].12;
+		UF_Select[46] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].13;
+		UF_Select[47] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Select_List[2].14;
+		
+		
+		UF_Inhibit[1] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].0;
+		UF_Inhibit[2] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].1;
+		UF_Inhibit[3] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].2;
+		UF_Inhibit[4] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].3;
+		UF_Inhibit[5] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].4;
+		UF_Inhibit[6] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].5;
+		UF_Inhibit[7] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].6;
+		UF_Inhibit[8] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].7;
+		UF_Inhibit[9] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].8;
+		UF_Inhibit[10] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].9;
+		UF_Inhibit[11] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].10;
+		UF_Inhibit[12] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].11;
+		UF_Inhibit[13] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].12;
+		UF_Inhibit[14] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].13;
+		UF_Inhibit[15] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].14;
+		UF_Inhibit[16] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].15;
+		UF_Inhibit[17] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].16;
+		UF_Inhibit[18] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].17;
+		UF_Inhibit[19] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].18;
+		UF_Inhibit[20] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].19;
+		UF_Inhibit[21] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].20;
+		UF_Inhibit[22] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].21;
+		UF_Inhibit[23] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].22;
+		UF_Inhibit[24] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].23;
+		UF_Inhibit[25] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].24;
+		UF_Inhibit[26] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].25;
+		UF_Inhibit[27] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].26;
+		UF_Inhibit[28] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].27;
+		UF_Inhibit[29] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].28;
+		UF_Inhibit[30] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].29;
+		UF_Inhibit[31] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].30;
+		UF_Inhibit[32] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[1].31;
+		UF_Inhibit[33] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].0;
+		UF_Inhibit[34] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].1;
+		UF_Inhibit[35] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].2;
+		UF_Inhibit[36] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].3;
+		UF_Inhibit[37] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].4;
+		UF_Inhibit[38] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].5;
+		UF_Inhibit[39] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].6;
+		UF_Inhibit[40] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].7;
+		UF_Inhibit[41] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].8;
+		UF_Inhibit[42] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].9;
+		UF_Inhibit[43] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].10;
+		UF_Inhibit[44] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].11;
+		UF_Inhibit[45] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].12;
+		UF_Inhibit[46] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].13;
+		UF_Inhibit[47] :=LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Inhibit_List[2].14;
+		
+	
+		FOR j:=1 TO 47 DO
+			IF UF_Select[j] THEN
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].X_Point[j]:=2;
+			ELSIF UF_Inhibit[j] THEN
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].X_Point[j]:=1;
+			ELSE
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].X_Point[j] :=0;
+			END_IF
+		END_FOR
+	END_FOR
+	(******************CHeck if Required*******************)	
+			FOR i:=1 TO nUFCONT DO
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].Required_to_Shed 	:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Required_to_Shed;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].Load_to_Shed 		:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].Load_to_Shed;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1	:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Status							:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.0;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Satisfied							:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.1;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Enabled							:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.2;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Operator_Disable					:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.3;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Bad_Status						:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.4;
+				GWB_TO_IOSRV_LSP_DATA.UF_CONT_DATA[i].Alarm								:= LOCAL_LSP_GW_IN.UF_CONTINGENCY_DATA_ARRAY[i].CONTINGENCY_DATA.5;
+			END_FOR
+	
+				GWB_TO_IOSRV_LSP_DATA.UF_L1_Load_To_Shed								:= LOCAL_LSP_GW_IN.UF_L1_Load_To_Shed;
+				GWB_TO_IOSRV_LSP_DATA.UF_L2_Load_To_Shed								:= LOCAL_LSP_GW_IN.UF_L2_Load_To_Shed;
+	
+	
+	(*********************************************************************************************************************************************)
+	(*************************************** LOAD SHED OVERVIEW  SCREEN  *************************************************************************)
+	(*********************************************************************************************************************************************)
+	
+	(**********MAP TOPOLOGY BREAKER**********)
+		FOR i:=1 TO nTOPO DO
+				GWB_TO_IOSRV_LSP_DATA.TOPO_BKR_STATUS[i]								:= LOCAL_LSP_GW_IN.TOPO_BKR_STATUS[i];
+				GWB_TO_IOSRV_LSP_DATA.BKR_STATUS[i+2]									:= LOCAL_LSP_GW_IN.BKR_STATUS[i+2];
+				
+		END_FOR
+		
+		FOR i:= 1 TO 16 DO
+				GWB_TO_IOSRV_LSP_DATA.BKR_STATUS[i]										:= LOCAL_LSP_GW_IN.BKR_STATUS[i];
+		END_FOR
+			
+	END_IF
+	
+		CPU_BURDEN_PERCENT := SystemTags.CPU_Burden_Percent.stVal;
+		GWB_TO_IOSRV_LSP_DATA.HMI_TEST_MODE	:= LOCAL_LSP_GW_IN.HMI_TEST_MODE;
+		GWB_TO_IOSRV_LSP_DATA.FEP_B3_CPU_PERCENT:= LOCAL_LSP_GW_IN.FEP_B3_CPU_PERCENT;
+		GWB_TO_IOSRV_LSP_DATA.FEP_B_CPU_PERCENT:= LOCAL_LSP_GW_IN.FEP_B_CPU_PERCENT;
+		]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

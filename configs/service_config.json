@@ -1,8 +1,8 @@
 {
   "service": {
-    "name": "microservice_template",
+    "name": "loadshed",
     "version": "1.0.0",
-    "description": "Generic C++ Microservice Template"
+    "description": "LoadShed Service - Load Shedding Management"
   },
   "api_server": {
     "host": "0.0.0.0",
@@ -12,7 +12,7 @@
   "mqtt": {
     "broker_host": "mosquitto",
     "broker_port": 1883,
-    "client_id": "microservice_template",
+    "client_id": "loadshed",
     "keepalive": 60,
     "qos": 1,
     "topics": {
@@ -36,9 +36,9 @@
   },
   "logging": {
     "level": "info",
-    "file": "/var/log/microservice.log",
+    "file": "/app/logs/loadshed.log",
     "console": true,
-    "max_file_size_mb": 100,
+    "max_file_size_mb": 10,
     "max_files": 5
   },
   "health_check": {

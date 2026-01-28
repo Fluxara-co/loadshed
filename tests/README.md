@@ -176,7 +176,7 @@ docker-compose up -d
 mkdir build && cd build
 cmake ..
 make
-./bin/microservice_template
+./bin/loadshed
 
 # Run tests (from device-dnp3-service directory)
 cd tests

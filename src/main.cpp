@@ -1,14 +1,12 @@
 /**
- * Generic C++ Microservice Template
+ * LoadShed Service
  * 
- * A production-ready microservice shell with:
+ * A production-ready microservice for load shedding management with:
  * - HTTP REST API Server
  * - MQTT Publisher/Subscriber
  * - Service lifecycle management
  * - Health monitoring
  * - Logging and metrics
- * 
- * Use this template to implement any microservice logic
  */
 
 #include "microservice/services/service_manager.h"
@@ -20,12 +18,14 @@
 #include "microservice/utils/logger.h"
 #include "microservice/core/process_manager.h"
 #include "microservice/core/process_manager_api.h"
+#include "microservice/models/loadshed_state_manager.h"
 
 #include <signal.h>
 #include <iostream>
 #include <memory>
 #include <thread>
 #include <cstdlib>
+#include <fstream>
 #include <nlohmann/json.hpp>
 #include <httplib.h>  // Include AFTER our headers to avoid Logger conflict
 
@@ -244,6 +244,196 @@ void setupApiEndpoints(std::shared_ptr<microservice::ApiServer> api_server,
 }
 
 /**
+ * @brief Setup SLD configuration endpoints
+ */
+void setupSLDConfigEndpoints(std::shared_ptr<microservice::ApiServer> api_server,
+                              std::shared_ptr<microservice::models::LoadShedStateManager> state_manager) {
+    
+    using namespace httplib;
+    using namespace microservice::models;
+    using json = nlohmann::json;
+    
+    if (!api_server || !state_manager) {
+        microservice::Logger::error("Invalid API server or State Manager");
+        return;
+    }
+    
+    // POST /api/v1/loadshed/config/sld - Update SLD configuration
+    api_server->registerPostRoute("/loadshed/config/sld",
+        [state_manager](const Request& req, Response& res) {
+            try {
+                auto sld_json = json::parse(req.body);
+                
+                bool success = state_manager->updateConfiguration(sld_json);
+                
+                const auto& state = state_manager->getState();
+                const auto& sld_config = state_manager->getSLDConfig();
+                
+                json response = {
+                    {"success", success},
+                    {"message", success ? "Configuration updated successfully" : "Failed to update configuration"},
+                    {"loads_count", state.loads.size()},
+                    {"contingencies_count", state.contingencies.size()},
+                    {"uf_contingencies_count", state.uf_contingencies.size()},
+                    {"topology_breakers_count", sld_config.topology_breaker_count},
+                    {"buses_count", sld_config.bus_count},
+                    {"sld_name", sld_config.sld_name},
+                    {"initialized", state_manager->isInitialized()}
+                };
+                
+                res.status = success ? 200 : 400;
+                res.set_content(response.dump(2), "application/json");
+                
+                if (success) {
+                    microservice::Logger::info("SLD configuration updated: " +
+                                              std::to_string(state.loads.size()) + " loads, " +
+                                              std::to_string(state.contingencies.size()) + " contingencies");
+                }
+                
+            } catch (const std::exception& e) {
+                res.status = 400;
+                json error = {
+                    {"success", false},
+                    {"error", e.what()}
+                };
+                res.set_content(error.dump(), "application/json");
+                microservice::Logger::error("Failed to update SLD configuration: " + std::string(e.what()));
+            }
+        });
+    
+    // GET /api/v1/loadshed/config/sld - Get current SLD configuration
+    api_server->registerGetRoute("/loadshed/config/sld",
+        [state_manager](const Request& req, Response& res) {
+            try {
+                const auto& state = state_manager->getState();
+                const auto& sld_config = state_manager->getSLDConfig();
+                
+                json config = {
+                    {"initialized", state_manager->isInitialized()},
+                    {"sld_name", sld_config.sld_name},
+                    {"sld_description", sld_config.sld_description},
+                    {"loads_count", state.loads.size()},
+                    {"contingencies_count", state.contingencies.size()},
+                    {"uf_contingencies_count", state.uf_contingencies.size()},
+                    {"topology_breakers_count", sld_config.topology_breaker_count},
+                    {"buses_count", sld_config.bus_count},
+                    {"config", {
+                        {"max_loads", state.config.max_loads},
+                        {"max_contingencies", state.config.max_contingencies},
+                        {"max_uf_contingencies", state.config.max_uf_contingencies},
+                        {"max_topology_breakers", state.config.max_topology_breakers},
+                        {"max_buses", state.config.max_buses},
+                        {"max_generators", state.config.max_generators}
+                    }}
+                };
+                
+                res.set_content(config.dump(2), "application/json");
+                
+            } catch (const std::exception& e) {
+                res.status = 500;
+                json error = {
+                    {"success", false},
+                    {"error", e.what()}
+                };
+                res.set_content(error.dump(), "application/json");
+            }
+        });
+    
+    // GET /api/v1/loadshed/state - Get current loadshed state
+    api_server->registerGetRoute("/loadshed/state",
+        [state_manager](const Request& req, Response& res) {
+            try {
+                const auto& state = state_manager->getState();
+                
+                json state_json = {
+                    {"initialized", state_manager->isInitialized()},
+                    {"version", state.version},
+                    {"loads", json::array()},
+                    {"contingencies", json::array()},
+                    {"uf_contingencies", json::array()},
+                    {"priority_list", json::array()},
+                    {"uf_l1_load_to_shed", state.uf_l1_load_to_shed},
+                    {"uf_l2_load_to_shed", state.uf_l2_load_to_shed},
+                    {"test_mode", state.test_mode},
+                    {"lsp_a_disabled", state.lsp_a_disabled},
+                    {"lsp_b_disabled", state.lsp_b_disabled}
+                };
+                
+                // Serialize loads
+                for (const auto& load : state.loads) {
+                    json load_json = {
+                        {"id", load.id},
+                        {"name", load.name},
+                        {"status", load.status == microservice::models::LoadStatus::GOOD ? "good" : "bad"},
+                        {"present_p", load.present_p},
+                        {"value_estimated", load.value_estimated},
+                        {"priority", load.priority},
+                        {"bus_conn", load.bus_conn},
+                        {"test_shed", load.test_shed},
+                        {"value_override", load.value_override},
+                        {"inhibit", load.inhibit},
+                        {"shed", load.shed}
+                    };
+                    state_json["loads"].push_back(load_json);
+                }
+                
+                // Serialize normal contingencies
+                for (const auto& cont : state.contingencies) {
+                    json cont_json = {
+                        {"id", cont.id},
+                        {"name", cont.name},
+                        {"type", "normal"},
+                        {"status", cont.status == microservice::models::ContingencyStatus::ACTIVE ? "active" : "inactive"},
+                        {"enabled", cont.enabled},
+                        {"satisfied", cont.satisfied},
+                        {"irm_max", cont.irm_max},
+                        {"irm_operator", cont.irm_operator},
+                        {"irm_actual", cont.irm_actual},
+                        {"required_to_shed", cont.required_to_shed},
+                        {"load_to_shed", cont.load_to_shed},
+                        {"present_p", cont.present_p}
+                    };
+                    state_json["contingencies"].push_back(cont_json);
+                }
+                
+                // Serialize UF contingencies
+                for (const auto& uf_cont : state.uf_contingencies) {
+                    json uf_cont_json = {
+                        {"id", uf_cont.id},
+                        {"name", uf_cont.name},
+                        {"type", "uf"},
+                        {"status", uf_cont.status == microservice::models::ContingencyStatus::ACTIVE ? "active" : "inactive"},
+                        {"enabled", uf_cont.enabled},
+                        {"satisfied", uf_cont.satisfied},
+                        {"irm_max", uf_cont.irm_max},
+                        {"irm_operator", uf_cont.irm_operator},
+                        {"required_to_shed", uf_cont.required_to_shed},
+                        {"load_to_shed", uf_cont.load_to_shed}
+                    };
+                    state_json["uf_contingencies"].push_back(uf_cont_json);
+                }
+                
+                // Serialize priority list
+                for (const auto& priority : state.priority_list) {
+                    state_json["priority_list"].push_back(priority);
+                }
+                
+                res.set_content(state_json.dump(2), "application/json");
+                
+            } catch (const std::exception& e) {
+                res.status = 500;
+                json error = {
+                    {"success", false},
+                    {"error", e.what()}
+                };
+                res.set_content(error.dump(), "application/json");
+            }
+        });
+    
+    microservice::Logger::info("SLD configuration endpoints registered");
+}
+
+/**
  * @brief Setup MQTT message handlers
  */
 void setupMqttHandlers(std::shared_ptr<microservice::MQTTSubscriber> mqtt_subscriber) {
@@ -347,7 +537,7 @@ int main(int argc, char* argv[]) {
     signal(SIGTERM, signal_handler);
     
     microservice::Logger::info("========================================");
-    microservice::Logger::info("  C++ Microservice Template Starting");
+    microservice::Logger::info("  LoadShed Service Starting");
     microservice::Logger::info("========================================");
     
     try {
@@ -362,7 +552,11 @@ int main(int argc, char* argv[]) {
 
         g_service_manager = service_manager;  // For signal handling
         
-        // === 2. Initialize Components ===
+        // === 2. Create LoadShed State Manager ===
+        
+        auto state_manager = std::make_shared<microservice::models::LoadShedStateManager>();
+        
+        // === 3. Initialize Components ===
         
         microservice::Logger::info("Initializing components...");
         
@@ -381,8 +575,8 @@ int main(int argc, char* argv[]) {
         
         microservice::Logger::info("MQTT Config: " + mqtt_host + ":" + std::to_string(mqtt_port));
         
-        mqtt_publisher->initialize(mqtt_host, mqtt_port, "microservice_pub");
-        mqtt_subscriber->initialize(mqtt_host, mqtt_port, "microservice_sub");
+        mqtt_publisher->initialize(mqtt_host, mqtt_port, "loadshed_pub");
+        mqtt_subscriber->initialize(mqtt_host, mqtt_port, "loadshed_sub");
         
         // Initialize Health Monitor
         if (!health_monitor->initialize()) {
@@ -390,27 +584,50 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         
-        // === 3. Register Components with ServiceManager ===
+        // === 4. Register Components with ServiceManager ===
         
         service_manager->setApiServer(api_server);
         service_manager->setMQTTPublisher(mqtt_publisher);
         service_manager->setMQTTSubscriber(mqtt_subscriber);
         service_manager->setHealthMonitor(health_monitor);
         
-        // === 4. Setup Integrations ===
+        // === 5. Setup Integrations ===
 
         setupApiEndpoints(api_server, service_manager);
         setupProcessManagerEndpoints(api_server, process_manager);
+        setupSLDConfigEndpoints(api_server, state_manager);
         setupServiceCallbacks(service_manager);
         
-        // === 5. Initialize Service Manager ===
+        // === 6. Initialize from SLD if provided ===
+        
+        const char* sld_config_path = std::getenv("SLD_CONFIG_PATH");
+        if (sld_config_path) {
+            microservice::Logger::info("Loading SLD configuration from: " + std::string(sld_config_path));
+            try {
+                std::ifstream file(sld_config_path);
+                if (file.is_open()) {
+                    nlohmann::json sld_json = nlohmann::json::parse(file);
+                    if (state_manager->initializeFromSLD(sld_json)) {
+                        microservice::Logger::info("SLD configuration loaded successfully");
+                    } else {
+                        microservice::Logger::warn("Failed to load SLD configuration from file");
+                    }
+                } else {
+                    microservice::Logger::warn("SLD_CONFIG_PATH set but file not found: " + std::string(sld_config_path));
+                }
+            } catch (const std::exception& e) {
+                microservice::Logger::error("Exception loading SLD config: " + std::string(e.what()));
+            }
+        }
+        
+        // === 7. Initialize Service Manager ===
         
         if (!service_manager->initialize("configs/service_config.json")) {
             microservice::Logger::error("Failed to initialize service manager");
             return 1;
         }
         
-        // === 6. Start Services ===
+        // === 8. Start Services ===
         
         microservice::Logger::info("Starting services...");
         
@@ -419,14 +636,14 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         
-        // === 7. Setup MQTT Handlers (AFTER MQTT is connected) ===
+        // === 9. Setup MQTT Handlers (AFTER MQTT is connected) ===
         setupMqttHandlers(mqtt_subscriber);
         
-        microservice::Logger::info("=== Microservice Running ===");
+        microservice::Logger::info("=== LoadShed Service Running ===");
         microservice::Logger::info("API Server: http://localhost:8080");
         microservice::Logger::info("Press Ctrl+C to stop");
         
-        // === 8. Main Loop ===
+        // === 10. Main Loop ===
 
         while (!service_manager->isShutdownRequested()) {
             // Check health of managed processes
@@ -440,9 +657,9 @@ int main(int argc, char* argv[]) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         
-        // === 9. Shutdown ===
+        // === 11. Shutdown ===
 
-        microservice::Logger::info("Shutting down microservice...");
+        microservice::Logger::info("Shutting down LoadShed service...");
 
         // Stop all managed processes
         microservice::Logger::info("Stopping all managed processes...");
@@ -456,7 +673,7 @@ int main(int argc, char* argv[]) {
 
         service_manager->shutdown();
         
-        microservice::Logger::info("Microservice exited successfully");
+        microservice::Logger::info("LoadShed service exited successfully");
         return 0;
         
     } catch (const std::exception& e) {

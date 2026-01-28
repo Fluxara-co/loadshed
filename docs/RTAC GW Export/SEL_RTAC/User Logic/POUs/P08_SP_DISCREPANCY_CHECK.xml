@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P08_SP_DISCREPANCY_CHECK</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P08_SP_DISCREPANCY_CHECK
+VAR
+	i: INT;
+	LOAD_DISCREPANCY: BOOL;
+	Contingency_DISCREPANCY: BOOL;
+	MISC_Discrepancy:BOOL;
+	DISCREPANCY_TIMER: TON;
+	LATCH: SR;
+	DISCREPANCY_TIMER_HOLD: TON;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This logic is used to detect a discrepancy between the setpoints in both GWs. IF there is a discrepancy set the DISCREPANCY_ALARM to TRUE. 
+To check if Copy set points should be displayed on HMI for operator input and then copy set points *)
+
+IF GW_BootUpComplete THEN
+	IF NOT IOSRV1_COM AND NOT IOSRV2_COM AND NOT GW_B_COM THEN 
+		FOR i:= 1 TO nCONT DO
+		 	IF (GWB3_TO_GWB.CONTINGENCY[i].IRM_MAX <> GWB_TO_GWB3.CONTINGENCY[i].IRM_MAX OR	
+				GWB3_TO_GWB.CONTINGENCY[i].IRM_Operator <> GWB_TO_GWB3.CONTINGENCY[i].IRM_Operator OR	
+				GWB3_TO_GWB.CONTINGENCY[i].OPERATOR_DISABLE <> GWB_TO_GWB3.CONTINGENCY[i].OPERATOR_DISABLE) THEN
+				Contingency_DISCREPANCY:=TRUE;
+			ELSE
+				Contingency_DISCREPANCY:=FALSE;
+			END_IF
+		END_FOR
+		FOR i:= 1 TO nLOAD DO
+		 	IF (GWB3_TO_GWB.LOAD[i].VALUE_ESTIMATED <> GWB_TO_GWB3.LOAD[i].VALUE_ESTIMATED OR	
+				GWB3_TO_GWB.LOAD[i].VALUE_OVERRIDE  <> GWB_TO_GWB3.LOAD[i].VALUE_OVERRIDE OR	
+				GWB3_TO_GWB.Priority_List[i] <> GWB_TO_GWB3.Priority_List[i]) THEN
+				Load_DISCREPANCY:=TRUE;
+			ELSE
+				Contingency_DISCREPANCY:=FALSE;
+			END_IF
+		END_FOR
+		IF (GWB3_TO_GWB.Disable_LSP_A 		<> GWB_TO_GWB3.Disable_LSP_A OR 
+			GWB3_TO_GWB.Disable_LSP_B 		<> GWB_TO_GWB3.Disable_LSP_B OR
+			GWB3_TO_GWB.Disable_LSP 		<> GWB_TO_GWB3.Disable_LSP OR
+			GWB3_TO_GWB.UF_L1_Load_To_Shed 	<> GWB_TO_GWB3.UF_L1_Load_To_Shed OR
+			GWB3_TO_GWB.UF_L2_Load_To_Shed	<> GWB_TO_GWB3.UF_L2_Load_To_Shed) THEN
+			 MISC_Discrepancy:=TRUE;
+		ELSE
+		   MISC_Discrepancy:=FALSE;
+		END_IF
+(*PU and DO timers for ALARMING the discrepancy -- give the time to get updated values from the HMI*)
+		DISCREPANCY_TIMER(IN:=Contingency_DISCREPANCY OR		
+						  LOAD_DISCREPANCY OR 
+						  MISC_Discrepancy ,PT:= DISCREPANCY_Pickup_time);
+	
+		DISCREPANCY_TIMER_HOLD(IN:= NOT Contingency_DISCREPANCY AND
+									NOT LOAD_DISCREPANCY AND
+									NOT MISC_Discrepancy ,PT:=DISCREPANCY_Dropout_time);
+	
+		LATCH(SET1:=DISCREPANCY_TIMER.Q , RESET:=DISCREPANCY_TIMER_HOLD.Q , Q1=>DISCREPANCY_ALARM );
+	ELSE
+		DISCREPANCY_ALARM:=FALSE;			
+	END_IF
+END_IF]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <GVL>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>CONSTANTS</Name>
+    <Content><![CDATA[VAR_GLOBAL CONSTANT
+		
+	nLOAD:INT:=47;					(*Number of LOADs*)
+	nCONT:INT:=8;					(*Number of Contingencies*)
+	nUFCONT:INT:= 6;				(*Number of Under Frequency Contingencies*)
+	nTOPO:INT:=15;					(*Number of Topology breakers*)
+	nGEN:INT:=6;					(*Number of generators*)
+	nBC:INT:=4;						(*Number of bus coupler breakers for auto syncing*)
+	nBUS:INT:=3;					(*Number of buses*)
+	nISL:INT:=5;					(*Number of possible islands*)
+	nBKR:INT:=10;					(*Number of breakers*)
+	nMEAS:INT:=3;					(*Number of busses*)
+	nSYNC:INT:=1;					(*Number for auto sync. To be completed later*)
+	
+
+END_VAR
+]]></Content>
+  </GVL>
+</RTACModule>

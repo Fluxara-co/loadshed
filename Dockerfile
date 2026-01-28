@@ -1,4 +1,4 @@
-# Multi-stage build for Device DNP3 Service with Process Manager
+# Multi-stage build for LoadShed Service with Process Manager
 FROM gcc:12 AS builder
 
 # Install build dependencies
@@ -87,8 +87,8 @@ RUN ldconfig
 # Set working directory
 WORKDIR /app
 
-# Copy built executable (renamed to device-dnp3-service)
-COPY --from=builder /app/build/bin/microservice_template /usr/local/bin/device-dnp3-service
+# Copy built executable (renamed to loadshed)
+COPY --from=builder /app/build/bin/loadshed /usr/local/bin/loadshed
 
 # Copy configuration files
 COPY --from=builder /app/configs/ /app/configs/
@@ -104,4 +104,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/api/v1/health || exit 1
 
 # Run the application
-CMD ["/usr/local/bin/device-dnp3-service"]
+CMD ["/usr/local/bin/loadshed"]

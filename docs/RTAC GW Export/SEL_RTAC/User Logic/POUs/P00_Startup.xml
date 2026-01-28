@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P00_Startup</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P00_Startup
+VAR
+	(*GW B3 Startup Vars*)
+	StartUpTimer	: TON;
+	StartUpDelayTime: TIME:= T#30S;
+	PowerUp			: BOOL;
+	ReadFromLSP		: R_TRIG;
+	R_TRIG1			: R_TRIG;
+	
+	GCSA_READ_DELAY : TON;
+	GCSB_READ_DELAY : TON;
+	
+	GCSB_COMM_F_TRIG:R_TRIG;
+	GCSB3_COMM_F_TRIG:R_TRIG;
+	
+	GCSA_UP			: R_TRIG;
+	GCSB_UP			: R_TRIG;
+	
+	ReadOK_LSP_A	:BOOL;
+	ReadOK_LSP_B	:BOOL;
+	ReadDelay		:TON;
+	
+	(*LSP Restart Vars*)
+	LSP_RestartTimer		:TON;
+	LSP_B3_StartUp_Complete	: F_TRIG;
+	LSP_B_StartUp_Complete	: F_TRIG;
+	AGC_RestartTimer		:TON;
+	AGC_B3_StartUp_Complete	: F_TRIG;
+	AGC_B_StartUp_Complete	: F_TRIG;
+	REINIT_GW				:BOOL:= FALSE;
+	GCSA_MASTER				:BOOL;
+	GCSB_MASTER				:BOOL;
+	
+	INIT_GCSB:INIT_GCS;
+	INIT_GCSB3:INIT_GCS;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This program is the Gateway start up logic. Once the Gateway boots up, initialize the data with data coming from the controllers.
+Once the Gateway is ready to use, set the Gateway  ready to use bit and the HMI Intitial read complete bit. *)
+
+	ReadOK_LSP_A		:= NOT LSP_B3_COM AND LSP_B3_TO_GW_B.LSP_InitialReadComplete;
+	ReadOK_LSP_B		:= NOT LSP_B_COM  AND LSP_B_TO_GW_B.LSP_InitialReadComplete;
+	LSP_GW_ReadyToUse	:= FALSE;
+	
+	IF PowerUP = FALSE THEN
+		PowerUP := TRUE;
+	END_IF
+	
+	R_TRIG1(Clk:=PowerUP);	
+	StartUpTimer(IN:=PowerUP,PT:=StartUpDelayTime);		 
+	
+	IF R_TRIG1.Q = TRUE THEN
+		GW_BootingUp := TRUE;
+	END_IF
+
+	IF StartUpTimer.Q  AND SystemTags.POST_Mainboard_Controller_OK.stVal = TRUE THEN
+		GW_BootUpComplete:= TRUE;
+		GW_BootingUp := FALSE;
+		ELSE 
+		GW_BootUpComplete:= FALSE;
+	END_IF
+	
+	ReadDelay(IN:=GW_BootUpComplete AND (ReadOK_LSP_A OR ReadOK_LSP_B), pt:=T#5S);
+	ReadFromLSP(Clk:=ReadDelay.Q);
+	
+	IF ReadFromLSP.Q = TRUE THEN
+		
+		IF NOT LSP_B3_COM AND ReadFromLSP.Q = TRUE AND LSP_B3_TO_GW_B.LSP_InitialReadComplete THEN
+			INIT_LSP_B3_SETPOINTS := TRUE;
+			P00_1_Initialize_SetPoints_LSP();
+		ELSIF NOT LSP_B_COM AND ReadFromLSP.Q = TRUE AND LSP_B_TO_GW_B.LSP_InitialReadComplete THEN
+			INIT_LSP_B_SETPOINTS := TRUE;
+			P00_1_Initialize_SetPoints_LSP();
+		END_IF   
+		
+		LSP_GW_ReadyToUse := TRUE;
+		LSP_GW_ReadyToUse:= IOSRV_TO_GWB_LSP_DATA.HMI_InitialReadComplete;
+	END_IF
+		
+(*STEP1: FIRST CHECK IF THE GCS HAS JUST COME ONLINE*)
+	(* TO DO THIS USE A R_TRIG*)
+	
+	GCSA_READ_DELAY.IN	:= NOT GCS_B3_COM;
+	GCSA_READ_DELAY.PT	:= T#50S;
+	GCSA_READ_DELAY();
+	
+	GCSB_READ_DELAY.IN	:= NOT GCS_B_COM;
+	GCSB_READ_DELAY.PT	:= T#50S;
+	GCSB_READ_DELAY();
+		
+(*STEP2: IF GCS HAS COME ONLINE FOR THE FIRST TIME , THEN READ DATA FROM MASTER AND WRITE IT TO THE NGVL VARIABLES FOR THE CORRESPONDING GCS THAT CAME ONLINE*)
+	GCSA_UP.CLK				:= GCSA_READ_DELAY.Q;
+	GCSB_UP.CLK				:= GCSB_READ_DELAY.Q;
+	GCSA_UP();
+	GCSB_UP();
+	
+	
+	GCSA_MASTER				:= NGVL_GCSB3_GW.DWORD8.30;
+	GCSB_MASTER				:= NGVL_GCSB_GW.DWORD8.30;
+	
+	IF (GCSB_MASTER AND GCSA_UP.Q AND NOT GCSB_UP.Q ) THEN
+		(*B IS THE MASTER AND ONLY A JUST STARTED AND B HAS ALREADY BEEN RUNNING WITH LATEST SETPOINTS*)
+		INIT_GCSB3.NGVL_IN			:= NGVL_GW_GCSB3;
+		INIT_GCSB3.INIT_VALUES		:= NGVL_GCSB_GW;
+		INIT_GCSB3();
+		NGVL_GW_GCSB3				:= INIT_GCSB3.NGVL_OUT;
+		INIT_GCS_B3_COMPLETE		:= TRUE;
+	
+	END_IF
+	
+	IF (GCSA_MASTER AND GCSB_UP.Q AND NOT GCSA_UP.Q) THEN
+		(*A IS THE MASTER AND ONLY B JUST STARTED AND AS HAS BEEN RUNNING WITH THE LATEST SETPOINTS*)
+		INIT_GCSB.NGVL_IN			:= NGVL_GW_GCSB;
+		INIT_GCSB.INIT_VALUES		:= NGVL_GCSB3_GW;
+		INIT_GCSB();
+		NGVL_GW_GCSB				:= INIT_GCSB.NGVL_OUT;
+		INIT_GCS_B_COMPLETE		:= TRUE;
+	
+	END_IF	
+
+	IF (NOT GCSA_MASTER AND NOT GCSB_MASTER AND GCSB_UP.Q) THEN
+		(* IF THERE ARE NO MASTERS AND GCS B JUST CAME UP *)
+		INIT_GCSB.NGVL_IN			:= NGVL_GW_GCSB;
+		INIT_GCSB.INIT_VALUES		:= NGVL_GCSB_GW;
+		INIT_GCSB();
+		NGVL_GW_GCSB				:= INIT_GCSB.NGVL_OUT;
+		INIT_GCS_B_COMPLETE			:= TRUE;
+	
+	END_IF
+	
+	IF (NOT GCSA_MASTER AND NOT GCSB_MASTER AND GCSA_UP.Q ) THEN
+		(* IF THERE ARE NO MASTERS AND GCSA JUST CAME UP  *)
+		INIT_GCSB3.NGVL_IN			:= NGVL_GW_GCSB3;
+		INIT_GCSB3.INIT_VALUES		:= NGVL_GCSB3_GW;
+		INIT_GCSB3();
+		NGVL_GW_GCSB3				:= INIT_GCSB3.NGVL_OUT;
+		INIT_GCS_B3_COMPLETE		:= TRUE;
+	
+	END_IF
+		
+	IF (GCSA_MASTER AND GCSA_UP.Q) THEN
+		(* IF GCS A MASTER AND GCS A JUST CAME UP *)
+		INIT_GCSB3.NGVL_IN			:= NGVL_GW_GCSB3;
+		INIT_GCSB3.INIT_VALUES		:= NGVL_GCSB3_GW;
+		INIT_GCSB3();
+		NGVL_GW_GCSB3				:= INIT_GCSB3.NGVL_OUT;
+		INIT_GCS_B3_COMPLETE			:= TRUE;
+	
+	END_IF
+	
+	
+	IF (GCSB_MASTER AND GCSB_UP.Q) THEN
+		(* IF GCS B MASTER AND GCS B JUST CAME UP *)
+		INIT_GCSB.NGVL_IN			:= NGVL_GW_GCSB;
+		INIT_GCSB.INIT_VALUES		:= NGVL_GCSB_GW;
+		INIT_GCSB();
+		NGVL_GW_GCSB				:= INIT_GCSB.NGVL_OUT;
+		INIT_GCS_B_COMPLETE			:= TRUE;
+	
+	END_IF
+	
+	GCSB_COMM_F_TRIG.CLK	:= GCS_B_COM;
+	GCSB_COMM_F_TRIG();
+	
+	GCSB3_COMM_F_TRIG.CLK	:= GCS_B3_COM;
+	GCSB3_COMM_F_TRIG();
+	
+	IF (GCSB_COMM_F_TRIG.Q) THEN
+		INIT_GCS_B_COMPLETE	:=FALSE;
+	END_IF
+	
+	IF (GCSB3_COMM_F_TRIG.Q) THEN
+		INIT_GCS_B3_COMPLETE	:=FALSE;
+	END_IF
+		
+(*STEP3: ENABLE IO SERVER WRITES*)
+IF 	GW_BootUpComplete THEN
+	GWA_COUNTER.q.validity:= Good;
+	IF NOT LSP_B_COM THEN 
+		LSPB_HMI_COUNTER.q.validity:= Good;
+	END_IF
+	IF NOT LSP_B3_COM THEN
+		LSPA_HMI_COUNTER.q.validity:= Good;
+	END_IF 
+	IF NOT GCS_B3_COM THEN
+		GCSA_HMI_COUNTER.q.validity:= Good;
+	END_IF
+	IF NOT GCS_B_COM THEN
+		GCSB_HMI_COUNTER.q.validity:= Good;
+	END_IF
+END_IF	]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

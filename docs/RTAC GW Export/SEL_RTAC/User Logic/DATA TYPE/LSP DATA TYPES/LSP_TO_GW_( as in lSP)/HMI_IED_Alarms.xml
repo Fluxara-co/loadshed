@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>HMI_IED_Alarms</Name>
+    <Content><![CDATA[TYPE HMI_IED_Alarms :
+STRUCT
+	
+	FEP_ALARMS1:DWORD;
+
+	LSP_ALARMS2:DWORD;
+
+	RELAY_ALARMS3:DWORD;
+	RELAY_ALARMS4:DWORD;
+	RELAY_ALARMS5:DWORD;
+	RELAY_ALARMS6:DWORD;
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>HMI_LOAD_DATA</Name>
+    <Content><![CDATA[TYPE HMI_LOAD_DATA :
+STRUCT
+	TEST_SHED:BOOL;			(*Manual shed command from the HMI*)
+	VALUE_ESTIMATED:REAL;	(*Forced Value of Power *)
+	VALUE_OVERRIDE:BOOL;	(* Toggle Live / Force*)
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

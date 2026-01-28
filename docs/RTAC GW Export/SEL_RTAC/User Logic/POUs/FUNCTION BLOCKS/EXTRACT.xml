@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>EXTRACT</Name>
+    <POUKind>Function</POUKind>
+    <Content>
+      <Interface><![CDATA[(* function returns Bit N of value X *)
+FUNCTION EXTRACT : BOOL
+VAR_INPUT
+	X:DWORD;	(* value *)
+	N:BYTE;		(* number of bit to be extracted *)
+END_VAR
+VAR
+END_VAR]]></Interface>
+      <Implementation><![CDATA[EXTRACT:=((SHR(X,N) AND 1)=1);
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

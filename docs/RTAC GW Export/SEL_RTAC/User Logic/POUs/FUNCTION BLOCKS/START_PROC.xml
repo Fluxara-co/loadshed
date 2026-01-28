@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>START_PROC</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK START_PROC
+VAR_INPUT
+	CONTROLLER_STATUS:BOOL;
+END_VAR
+VAR_OUTPUT
+	ENABLE_SYSTEM: BOOL;
+END_VAR
+VAR
+	STARTUPTIMER: TON;
+END_VAR]]></Interface>
+      <Implementation><![CDATA[		
+	
+		IF CONTROLLER_STATUS = TRUE THEN 
+			FEP_BootUpComplete := TRUE;
+		ELSE 
+			FEP_BootUpComplete := FALSE;
+		END_IF
+			
+		StartUpTimer(IN:=FEP_BootUpComplete,PT:=StartUpDelayTime);
+			
+		IF StartUpTimer.Q  THEN
+			ENABLE_SYSTEM := TRUE;
+		ELSE 
+			ENABLE_SYSTEM := FALSE;
+		END_IF]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

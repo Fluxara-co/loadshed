@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P09_MAP_IOSRV_TO_GW_LSP_DATA</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P09_MAP_IOSRV_TO_GW_LSP_DATA
+VAR
+	i:INT;
+	ShedTimer:ARRAY[1..30] OF TON;
+	PCHECK:PCHECK;
+	PRIORITY_SORT:PSORT;
+	MaxItem: WORD:=0;
+	MaxItemA:WORD;
+	MaxItemB:WORD;
+	
+	TOF1:ARRAY[1..nLOAD] OF TOF;
+	RTRIG1:R_TRIG;
+
+	
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*IF IO SERVER A IS HEALTHY MAP DATA FROM THERE ELSE MAP DATA FROM IO SERVER B*)
+
+IF GW_BootUpComplete THEN
+//	IF NOT IOSRV1_COM THEN
+(*********************************************CONT SUMMARY*****************************************************************)
+																			
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[1].IRM_MAX:= C1_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[2].IRM_MAX:= C2_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[3].IRM_MAX:= C3_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[4].IRM_MAX:= C4_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[5].IRM_MAX:= C5_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[6].IRM_MAX:= C6_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[7].IRM_MAX:= C7_IRM_MAX_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[8].IRM_MAX:= C8_IRM_MAX_OUT_A_A.oper.setMag;
+					
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[1].IRM_Operator:= C1_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[2].IRM_Operator:= C2_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[3].IRM_Operator:= C3_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[4].IRM_Operator:= C4_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[5].IRM_Operator:= C5_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[6].IRM_Operator:= C6_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[7].IRM_Operator:= C7_IRM_Operator_OUT_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[8].IRM_Operator:= C8_IRM_Operator_OUT_A_A.oper.setMag;
+					
+		OP_DISABLE_SET[1](SET1:=C1_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C1_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[1].OPERATOR_DISABLE := OP_DISABLE_SET[1].Q1;
+						
+		OP_DISABLE_SET[2](SET1:=C2_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C2_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[2].OPERATOR_DISABLE := OP_DISABLE_SET[2].Q1;
+			
+		OP_DISABLE_SET[3](SET1:=C3_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C3_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[3].OPERATOR_DISABLE := OP_DISABLE_SET[3].Q1;
+					
+		OP_DISABLE_SET[4](SET1:=C4_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C4_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[4].OPERATOR_DISABLE := OP_DISABLE_SET[4].Q1;
+					
+		OP_DISABLE_SET[5](SET1:=C5_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C5_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[5].OPERATOR_DISABLE := OP_DISABLE_SET[5].Q1;
+					
+		OP_DISABLE_SET[6](SET1:=C6_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C6_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[6].OPERATOR_DISABLE := OP_DISABLE_SET[6].Q1;
+					
+		OP_DISABLE_SET[7](SET1:=C7_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C7_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[7].OPERATOR_DISABLE := OP_DISABLE_SET[7].Q1;
+					
+		OP_DISABLE_SET[8](SET1:=C8_Op_Disable_OUT_Close_A_A.operClose.ctlVal,RESET:= C8_Op_Disable_OUT_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[8].OPERATOR_DISABLE := OP_DISABLE_SET[8].Q1;
+					
+(*********************************************LOAD STATUS*****************************************************************)
+ 				
+		IOSRV_TO_GWB_LSP_DATA.LOAD[1].VALUE_ESTIMATED  := L1_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[2].VALUE_ESTIMATED  := L2_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[3].VALUE_ESTIMATED  := L3_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[4].VALUE_ESTIMATED  := L4_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[5].VALUE_ESTIMATED  := L5_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[6].VALUE_ESTIMATED  := L6_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[7].VALUE_ESTIMATED  := L7_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[8].VALUE_ESTIMATED  := L8_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[9].VALUE_ESTIMATED  := L9_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[10].VALUE_ESTIMATED := L10_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[11].VALUE_ESTIMATED := L11_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[12].VALUE_ESTIMATED := L12_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[13].VALUE_ESTIMATED := L13_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[14].VALUE_ESTIMATED := L14_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[15].VALUE_ESTIMATED := L15_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[16].VALUE_ESTIMATED := L16_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[17].VALUE_ESTIMATED := L17_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[18].VALUE_ESTIMATED := L18_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[19].VALUE_ESTIMATED := L19_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[20].VALUE_ESTIMATED := L20_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[21].VALUE_ESTIMATED := L21_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[22].VALUE_ESTIMATED := L22_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[23].VALUE_ESTIMATED := L23_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[24].VALUE_ESTIMATED := L24_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[25].VALUE_ESTIMATED := L25_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[26].VALUE_ESTIMATED := L26_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[27].VALUE_ESTIMATED := L27_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[28].VALUE_ESTIMATED := L28_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[29].VALUE_ESTIMATED := L29_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[30].VALUE_ESTIMATED := L30_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[31].VALUE_ESTIMATED := L31_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[32].VALUE_ESTIMATED := L32_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[33].VALUE_ESTIMATED := L33_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[34].VALUE_ESTIMATED := L34_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[35].VALUE_ESTIMATED := L35_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[36].VALUE_ESTIMATED := L36_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[37].VALUE_ESTIMATED := L37_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[38].VALUE_ESTIMATED := L38_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[39].VALUE_ESTIMATED := L39_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[40].VALUE_ESTIMATED := L40_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[41].VALUE_ESTIMATED := L41_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[42].VALUE_ESTIMATED := L42_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[43].VALUE_ESTIMATED := L43_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[44].VALUE_ESTIMATED := L44_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[45].VALUE_ESTIMATED := L45_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[46].VALUE_ESTIMATED := L46_Value_Estimated_Set_A_A.oper.setMag;
+		IOSRV_TO_GWB_LSP_DATA.LOAD[47].VALUE_ESTIMATED := L47_Value_Estimated_Set_A_A.oper.setMag;	
+		
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[1]  		:= REAL_TO_WORD(L1_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[2]  		:= REAL_TO_WORD(L2_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[3]  		:= REAL_TO_WORD(L3_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[4]  		:= REAL_TO_WORD(L4_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[5]  		:= REAL_TO_WORD(L5_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[6]  		:= REAL_TO_WORD(L6_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[7] 			:= REAL_TO_WORD(L7_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[8]  		:= REAL_TO_WORD(L8_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[9] 			:= REAL_TO_WORD(L9_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[10] 		:= REAL_TO_WORD(L10_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[11]  		:= REAL_TO_WORD(L11_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[12]  		:= REAL_TO_WORD(L12_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[13]  		:= REAL_TO_WORD(L13_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[14]  		:= REAL_TO_WORD(L14_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[15]  		:= REAL_TO_WORD(L15_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[16]  		:= REAL_TO_WORD(L16_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[17] 		:= REAL_TO_WORD(L17_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[18]  		:= REAL_TO_WORD(L18_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[19] 		:= REAL_TO_WORD(L19_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[20] 		:= REAL_TO_WORD(L20_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[21]  		:= REAL_TO_WORD(L21_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[22]  		:= REAL_TO_WORD(L22_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[23]  		:= REAL_TO_WORD(L23_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[24]  		:= REAL_TO_WORD(L24_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[25]  		:= REAL_TO_WORD(L25_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[26]  		:= REAL_TO_WORD(L26_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[27] 		:= REAL_TO_WORD(L27_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[28]  		:= REAL_TO_WORD(L28_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[29] 		:= REAL_TO_WORD(L29_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[30] 		:= REAL_TO_WORD(L30_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[31]  		:= REAL_TO_WORD(L31_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[32]  		:= REAL_TO_WORD(L32_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[33]  		:= REAL_TO_WORD(L33_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[34]  		:= REAL_TO_WORD(L34_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[35]  		:= REAL_TO_WORD(L35_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[36]  		:= REAL_TO_WORD(L36_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[37] 		:= REAL_TO_WORD(L37_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[38]  		:= REAL_TO_WORD(L38_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[39] 		:= REAL_TO_WORD(L39_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[40] 		:= REAL_TO_WORD(L40_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[41]  		:= REAL_TO_WORD(L41_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[42]  		:= REAL_TO_WORD(L42_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[43]  		:= REAL_TO_WORD(L43_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[44]  		:= REAL_TO_WORD(L44_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[45]  		:= REAL_TO_WORD(L45_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[46]  		:= REAL_TO_WORD(L46_Priority_Set_A_A.oper.setMag);
+		IOSRV_TO_GWB_LSP_DATA.Priority_List[47] 		:= REAL_TO_WORD(L47_Priority_Set_A_A.oper.setMag);
+		
+		TEST_SHED_SET[1](SET1:=L1_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L1_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[1].TEST_SHED := TEST_SHED_SET[1].Q1;
+		
+		TEST_SHED_SET[2](SET1:=L2_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L2_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[2].TEST_SHED := TEST_SHED_SET[2].Q1;
+		
+		TEST_SHED_SET[3](SET1:=L3_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L3_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[3].TEST_SHED := TEST_SHED_SET[3].Q1;
+ 
+		TEST_SHED_SET[4](SET1:=L4_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L4_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[4].TEST_SHED := TEST_SHED_SET[4].Q1;
+
+		TEST_SHED_SET[5](SET1:=L5_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L5_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[5].TEST_SHED := TEST_SHED_SET[5].Q1;
+		
+		TEST_SHED_SET[6](SET1:=L6_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L6_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[6].TEST_SHED := TEST_SHED_SET[6].Q1;
+		
+		TEST_SHED_SET[7](SET1:=L7_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L7_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[7].TEST_SHED := TEST_SHED_SET[7].Q1;
+		
+		TEST_SHED_SET[8](SET1:=L8_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L8_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[8].TEST_SHED := TEST_SHED_SET[8].Q1;
+		
+		TEST_SHED_SET[9](SET1:=L9_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L9_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[9].TEST_SHED := TEST_SHED_SET[9].Q1;
+		
+		TEST_SHED_SET[10](SET1:=L10_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L10_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[10].TEST_SHED := TEST_SHED_SET[10].Q1;
+		
+		TEST_SHED_SET[11](SET1:=L11_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L11_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[11].TEST_SHED := TEST_SHED_SET[11].Q1;
+		
+		TEST_SHED_SET[12](SET1:=L12_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:=L12_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[12].TEST_SHED := TEST_SHED_SET[12].Q1;
+		
+		TEST_SHED_SET[13](SET1:=L13_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L13_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[13].TEST_SHED := TEST_SHED_SET[13].Q1;
+ 
+		TEST_SHED_SET[14](SET1:=L14_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L14_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[14].TEST_SHED := TEST_SHED_SET[14].Q1;
+
+		TEST_SHED_SET[15](SET1:=L15_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L15_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[15].TEST_SHED := TEST_SHED_SET[15].Q1;
+		
+		TEST_SHED_SET[16](SET1:=L16_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L16_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[16].TEST_SHED := TEST_SHED_SET[16].Q1;
+		
+		TEST_SHED_SET[17](SET1:=L17_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L17_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[17].TEST_SHED := TEST_SHED_SET[17].Q1;
+		
+		TEST_SHED_SET[18](SET1:=L18_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L18_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[18].TEST_SHED := TEST_SHED_SET[18].Q1;
+		
+		TEST_SHED_SET[19](SET1:=L19_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L19_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[19].TEST_SHED := TEST_SHED_SET[19].Q1;
+		
+		TEST_SHED_SET[20](SET1:=L20_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L20_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[20].TEST_SHED := TEST_SHED_SET[20].Q1;
+
+		TEST_SHED_SET[21](SET1:=L21_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L21_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[21].TEST_SHED := TEST_SHED_SET[21].Q1;
+		
+		TEST_SHED_SET[22](SET1:=L22_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L22_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[22].TEST_SHED := TEST_SHED_SET[22].Q1;
+		
+		TEST_SHED_SET[23](SET1:=L23_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L23_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[23].TEST_SHED := TEST_SHED_SET[23].Q1;
+ 
+		TEST_SHED_SET[24](SET1:=L24_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L24_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[24].TEST_SHED := TEST_SHED_SET[24].Q1;
+
+		TEST_SHED_SET[25](SET1:=L25_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L25_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[25].TEST_SHED := TEST_SHED_SET[25].Q1;
+		
+		TEST_SHED_SET[26](SET1:=L26_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L26_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[26].TEST_SHED := TEST_SHED_SET[26].Q1;
+		
+		TEST_SHED_SET[27](SET1:=L27_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L27_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[27].TEST_SHED := TEST_SHED_SET[27].Q1;
+		
+		TEST_SHED_SET[28](SET1:=L28_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L28_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[28].TEST_SHED := TEST_SHED_SET[28].Q1;
+		
+		TEST_SHED_SET[29](SET1:=L29_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L29_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[29].TEST_SHED := TEST_SHED_SET[29].Q1;
+		
+		TEST_SHED_SET[30](SET1:=L30_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L30_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[30].TEST_SHED := TEST_SHED_SET[30].Q1;
+
+		TEST_SHED_SET[31](SET1:=L31_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L31_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[31].TEST_SHED := TEST_SHED_SET[31].Q1;
+		
+		TEST_SHED_SET[32](SET1:=L32_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L32_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[32].TEST_SHED := TEST_SHED_SET[32].Q1;
+		
+		TEST_SHED_SET[33](SET1:=L33_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L33_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[33].TEST_SHED := TEST_SHED_SET[33].Q1;
+ 
+		TEST_SHED_SET[34](SET1:=L34_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L34_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[34].TEST_SHED := TEST_SHED_SET[34].Q1;
+
+		TEST_SHED_SET[35](SET1:=L35_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L35_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[35].TEST_SHED := TEST_SHED_SET[35].Q1;
+		
+		TEST_SHED_SET[36](SET1:=L36_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L36_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[36].TEST_SHED := TEST_SHED_SET[36].Q1;
+		
+		TEST_SHED_SET[37](SET1:=L37_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L37_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[37].TEST_SHED := TEST_SHED_SET[37].Q1;
+		
+		TEST_SHED_SET[38](SET1:=L38_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L38_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[38].TEST_SHED := TEST_SHED_SET[38].Q1;
+		
+		TEST_SHED_SET[39](SET1:=L39_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L39_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[39].TEST_SHED := TEST_SHED_SET[39].Q1;
+		
+		TEST_SHED_SET[40](SET1:=L40_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L40_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[40].TEST_SHED := TEST_SHED_SET[40].Q1;
+
+		TEST_SHED_SET[41](SET1:=L41_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L41_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[41].TEST_SHED := TEST_SHED_SET[41].Q1;
+		
+		TEST_SHED_SET[42](SET1:=L42_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L42_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[42].TEST_SHED := TEST_SHED_SET[42].Q1;
+		
+		TEST_SHED_SET[43](SET1:=L43_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L43_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[43].TEST_SHED := TEST_SHED_SET[43].Q1;
+ 
+		TEST_SHED_SET[44](SET1:=L44_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L44_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[44].TEST_SHED := TEST_SHED_SET[44].Q1;
+
+		TEST_SHED_SET[45](SET1:=L45_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L45_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[45].TEST_SHED := TEST_SHED_SET[45].Q1;
+		
+		TEST_SHED_SET[46](SET1:=L46_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L46_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[46].TEST_SHED := TEST_SHED_SET[46].Q1;
+		
+		TEST_SHED_SET[47](SET1:=L47_Test_Shed_Set_Close_A_A.operClose.ctlVal,RESET:= L47_Test_Shed_Set_Trip_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[47].TEST_SHED := TEST_SHED_SET[47].Q1;
+				
+		VALUE_OVERRIDE_SET[1](SET1:=L1_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L1_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[1].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[1].Q1;
+		
+		VALUE_OVERRIDE_SET[2](SET1:=L2_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L2_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[2].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[2].Q1;
+		
+		VALUE_OVERRIDE_SET[3](SET1:=L3_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L3_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[3].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[3].Q1;
+ 
+		VALUE_OVERRIDE_SET[4](SET1:=L4_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L4_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[4].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[4].Q1;
+
+		VALUE_OVERRIDE_SET[5](SET1:=L5_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L5_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[5].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[5].Q1;
+		
+		VALUE_OVERRIDE_SET[6](SET1:=L6_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L6_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[6].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[6].Q1;
+		
+		VALUE_OVERRIDE_SET[7](SET1:=L7_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L7_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[7].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[7].Q1;
+		
+		
+		VALUE_OVERRIDE_SET[8](SET1:=L8_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L8_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[8].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[8].Q1;
+		
+		VALUE_OVERRIDE_SET[9](SET1:=L9_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L9_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[9].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[9].Q1;
+		
+		VALUE_OVERRIDE_SET[10](SET1:=L10_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L10_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[10].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[10].Q1;
+		
+		VALUE_OVERRIDE_SET[11](SET1:=L11_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L11_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[11].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[11].Q1;
+		
+		VALUE_OVERRIDE_SET[12](SET1:=L12_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L12_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[12].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[12].Q1;
+		
+		VALUE_OVERRIDE_SET[13](SET1:=L13_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L13_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[13].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[13].Q1;
+ 
+		VALUE_OVERRIDE_SET[14](SET1:=L14_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L14_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[14].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[14].Q1;
+
+		VALUE_OVERRIDE_SET[15](SET1:=L15_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L15_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[15].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[15].Q1;
+		
+		VALUE_OVERRIDE_SET[16](SET1:=L16_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L16_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[16].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[16].Q1;
+		
+		VALUE_OVERRIDE_SET[17](SET1:=L17_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L17_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[17].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[17].Q1;
+		
+		VALUE_OVERRIDE_SET[18](SET1:=L18_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L18_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[18].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[18].Q1;
+		
+		VALUE_OVERRIDE_SET[19](SET1:=L19_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L19_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[19].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[19].Q1;
+		
+		VALUE_OVERRIDE_SET[20](SET1:=L20_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L20_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[20].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[20].Q1;
+
+		VALUE_OVERRIDE_SET[21](SET1:=L21_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L21_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[21].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[21].Q1;
+		
+		VALUE_OVERRIDE_SET[22](SET1:=L22_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L22_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[22].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[22].Q1;
+		
+		VALUE_OVERRIDE_SET[23](SET1:=L23_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L23_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[23].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[23].Q1;
+ 
+		VALUE_OVERRIDE_SET[24](SET1:=L24_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L24_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[24].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[24].Q1;
+
+		VALUE_OVERRIDE_SET[25](SET1:=L25_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L25_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[25].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[25].Q1;
+		
+		VALUE_OVERRIDE_SET[26](SET1:=L26_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L26_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[26].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[26].Q1;
+		
+		VALUE_OVERRIDE_SET[27](SET1:=L27_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L27_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[27].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[27].Q1;
+		
+		VALUE_OVERRIDE_SET[28](SET1:=L28_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L28_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[28].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[28].Q1;
+		
+		VALUE_OVERRIDE_SET[29](SET1:=L29_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L29_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[29].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[29].Q1;
+		
+		VALUE_OVERRIDE_SET[30](SET1:=L30_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L30_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[30].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[30].Q1;
+
+		VALUE_OVERRIDE_SET[31](SET1:=L31_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L31_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[31].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[31].Q1;
+		
+		VALUE_OVERRIDE_SET[32](SET1:=L32_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L32_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[32].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[32].Q1;
+		
+		VALUE_OVERRIDE_SET[33](SET1:=L33_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L33_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[33].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[33].Q1;
+ 
+		VALUE_OVERRIDE_SET[34](SET1:=L34_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L34_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[34].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[34].Q1;
+
+		VALUE_OVERRIDE_SET[35](SET1:=L35_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L35_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[35].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[35].Q1;
+		
+		VALUE_OVERRIDE_SET[36](SET1:=L36_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L36_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[36].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[36].Q1;
+		
+		VALUE_OVERRIDE_SET[37](SET1:=L37_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L37_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[37].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[37].Q1;
+		
+		VALUE_OVERRIDE_SET[38](SET1:=L38_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L38_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[38].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[38].Q1;
+		
+		VALUE_OVERRIDE_SET[39](SET1:=L39_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L39_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[39].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[39].Q1;
+		
+		VALUE_OVERRIDE_SET[40](SET1:=L40_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L40_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[40].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[40].Q1;
+
+		VALUE_OVERRIDE_SET[41](SET1:=L41_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L41_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[41].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[41].Q1;
+		
+		VALUE_OVERRIDE_SET[42](SET1:=L42_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L42_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[42].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[42].Q1;
+		
+		VALUE_OVERRIDE_SET[43](SET1:=L43_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L43_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[43].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[43].Q1;
+ 
+		VALUE_OVERRIDE_SET[44](SET1:=L44_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L44_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[44].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[44].Q1;
+
+		VALUE_OVERRIDE_SET[45](SET1:=L45_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L45_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[45].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[45].Q1;
+		
+		VALUE_OVERRIDE_SET[46](SET1:=L46_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L46_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[46].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[46].Q1;
+		
+		VALUE_OVERRIDE_SET[47](SET1:=L47_Value_Override_Set_CLOSE_A_A.operClose.ctlVal,RESET:= L47_Value_Override_Set_TRIP_A_A.operTrip.ctlVal);		
+		IOSRV_TO_GWB_LSP_DATA.LOAD[47].VALUE_OVERRIDE := VALUE_OVERRIDE_SET[47].Q1;
+	
+		PRIORITY_SORT(ENABLE  :=(LSP_B3_TO_GW_B.LSP_InitialReadComplete OR LSP_B_TO_GW_B.LSP_InitialReadComplete),
+						  List_In_INT :=IOSRV_TO_GWB_LSP_DATA.Priority_List,
+						  List_Out=>Priority_List_SET,
+						  Changed =>PriorityChanged);
+						  
+		PCHECK		 (ENABLE  :=LSP_B3_TO_GW_B.LSP_InitialReadComplete OR LSP_B_TO_GW_B.LSP_InitialReadComplete, 
+						  List_In :=Priority_List_SET, 
+						  Max_Item=>MaxItem);
+		
+			L1_Priority_Set_A_A.oper.setMag   := Priority_List_SET[1];
+			L2_Priority_Set_A_A.oper.setMag   := Priority_List_SET[2];
+			L3_Priority_Set_A_A.oper.setMag   := Priority_List_SET[3];
+			L4_Priority_Set_A_A.oper.setMag   := Priority_List_SET[4];
+			L5_Priority_Set_A_A.oper.setMag   := Priority_List_SET[5];
+			L6_Priority_Set_A_A.oper.setMag   := Priority_List_SET[6];
+			L7_Priority_Set_A_A.oper.setMag   := Priority_List_SET[7];
+			L8_Priority_Set_A_A.oper.setMag   := Priority_List_SET[8];
+			L9_Priority_Set_A_A.oper.setMag   := Priority_List_SET[9];
+			L10_Priority_Set_A_A.oper.setMag  := Priority_List_SET[10];
+			L11_Priority_Set_A_A.oper.setMag  := Priority_List_SET[11];
+			L12_Priority_Set_A_A.oper.setMag  := Priority_List_SET[12];
+			L13_Priority_Set_A_A.oper.setMag  := Priority_List_SET[13];
+			L14_Priority_Set_A_A.oper.setMag  := Priority_List_SET[14];
+			L15_Priority_Set_A_A.oper.setMag  := Priority_List_SET[15];
+			L16_Priority_Set_A_A.oper.setMag  := Priority_List_SET[16];
+			L17_Priority_Set_A_A.oper.setMag  := Priority_List_SET[17];
+			L18_Priority_Set_A_A.oper.setMag  := Priority_List_SET[18];
+			L19_Priority_Set_A_A.oper.setMag  := Priority_List_SET[19];
+			L20_Priority_Set_A_A.oper.setMag  := Priority_List_SET[20];
+			L21_Priority_Set_A_A.oper.setMag  := Priority_List_SET[21];
+			L22_Priority_Set_A_A.oper.setMag  := Priority_List_SET[22];
+			L23_Priority_Set_A_A.oper.setMag  := Priority_List_SET[23];
+			L24_Priority_Set_A_A.oper.setMag  := Priority_List_SET[24];
+			L25_Priority_Set_A_A.oper.setMag  := Priority_List_SET[25];
+			L26_Priority_Set_A_A.oper.setMag  := Priority_List_SET[26];
+			L27_Priority_Set_A_A.oper.setMag  := Priority_List_SET[27];
+			L28_Priority_Set_A_A.oper.setMag  := Priority_List_SET[28];
+			L29_Priority_Set_A_A.oper.setMag  := Priority_List_SET[29];
+			L30_Priority_Set_A_A.oper.setMag  := Priority_List_SET[30];	
+			L31_Priority_Set_A_A.oper.setMag  := Priority_List_SET[31];
+			L32_Priority_Set_A_A.oper.setMag  := Priority_List_SET[32];
+			L33_Priority_Set_A_A.oper.setMag  := Priority_List_SET[33];
+			L34_Priority_Set_A_A.oper.setMag  := Priority_List_SET[34];
+			L35_Priority_Set_A_A.oper.setMag  := Priority_List_SET[35];
+			L36_Priority_Set_A_A.oper.setMag  := Priority_List_SET[36];
+			L37_Priority_Set_A_A.oper.setMag  := Priority_List_SET[37];
+			L38_Priority_Set_A_A.oper.setMag  := Priority_List_SET[38];
+			L39_Priority_Set_A_A.oper.setMag  := Priority_List_SET[39];
+			L40_Priority_Set_A_A.oper.setMag  := Priority_List_SET[40];		  
+			L41_Priority_Set_A_A.oper.setMag  := Priority_List_SET[41];
+			L42_Priority_Set_A_A.oper.setMag  := Priority_List_SET[42];
+			L43_Priority_Set_A_A.oper.setMag  := Priority_List_SET[43];
+			L44_Priority_Set_A_A.oper.setMag  := Priority_List_SET[44];
+			L45_Priority_Set_A_A.oper.setMag  := Priority_List_SET[45];
+			L46_Priority_Set_A_A.oper.setMag  := Priority_List_SET[46];
+			L47_Priority_Set_A_A.oper.setMag  := Priority_List_SET[47];	
+					
+(*****************************************************UF*****************************************************************)
+			
+			IOSRV_TO_GWB_LSP_DATA.UF_L1_Load_To_Shed	:=UFL1_ReqToShedOUT_A_A.oper.setmag;
+			IOSRV_TO_GWB_LSP_DATA.UF_L2_Load_To_Shed	:=UFL2_ReqToShedOUT_A_A.oper.setmag;
+			
+(*****************************************************DIAGNISTICS**********************************************************)				
+			DISABLE_LSP_A			 	(SET1:= LSPA_Disabled_OUT_Close_A_A.operClose.ctlVal	,RESET :=LSPA_Disabled_OUT_Close_A_A.operTrip.ctlVal);
+			DISABLE_LSP_B			 	(SET1:= LSPB_Disabled_OUT_Close_A_A.operClose.ctlVal	,RESET :=LSPB_Disabled_OUT_Close_A_A.operTrip.ctlVal);
+			TEST_MODE_SET			 	(SET1:= Test_Mode_Status_OUT_Close_A_A.operClose.ctlVal	,RESET :=Test_Mode_Status_OUT_Close_A_A.operTrip.ctlVal);
+			
+			IOSRV_TO_GWB_LSP_DATA.Disable_LSP_A		:=DISABLE_LSP_A.Q1;
+			IOSRV_TO_GWB_LSP_DATA.Disable_LSP_B		:=DISABLE_LSP_B.Q1;
+			IOSRV_TO_GWB_LSP_DATA.Test_Mode			:=TEST_MODE_SET.Q1;
+			IOSRV_TO_GWB_LSP_DATA.CLEAR := CLEAR_OUT_Close_A_A.operClose.ctlVal;
+							
+
+END_IF]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

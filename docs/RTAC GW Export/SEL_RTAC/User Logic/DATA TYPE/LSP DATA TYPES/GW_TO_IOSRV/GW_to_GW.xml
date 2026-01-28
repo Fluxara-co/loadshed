@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>GW_to_GW</Name>
+    <Content><![CDATA[TYPE GW_to_GW :
+STRUCT
+	GW_TO_GW:HMI_LSP_DATA;			    (*Data between FEPs of type FEP_LSP_DATA for comparison*)
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

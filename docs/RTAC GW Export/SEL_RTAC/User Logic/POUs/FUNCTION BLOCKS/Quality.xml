@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>Quality</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK Quality
+VAR_INPUT
+	ENABLE_COMM:BOOL;
+	ENABLE_IO_READ:BOOL;
+	FEP_IO_READY:BOOL;
+	FEP_ENABLE_OUTPUTS:BOOL;
+	LOCAL_FEP_ALARMS:ARRAY[1..5] OF BOOL;
+END_VAR
+VAR_OUTPUT
+	LOCAL_FEP_QUALITY: INT;
+END_VAR
+VAR
+	i:INT;
+	LOCAL_ALARM_QUALITY:INT;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[
+	FOR i:= 1 TO 5 DO
+		LOCAL_ALARM_QUALITY := BOOL_TO_INT(LOCAL_FEP_ALARMS[i]);
+	END_FOR
+	
+    LOCAL_FEP_QUALITY := BOOL_TO_INT(ENABLE_COMM)+ 
+				     	 BOOL_TO_INT(ENABLE_IO_READ)+ 
+					   	 BOOL_TO_INT(FEP_IO_READY)+
+					  	 BOOL_TO_INT(FEP_ENABLE_OUTPUTS)+
+						 LOCAL_ALARM_QUALITY;
+								
+								]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

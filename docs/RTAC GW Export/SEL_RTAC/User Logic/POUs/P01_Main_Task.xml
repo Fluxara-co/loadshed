@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P01_Main_Task</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P01_Main_Task
+VAR
+
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*This program is the main task where all program calls are made*)
+
+(****************************** Revision History *************************************************************
+
+						DATE     		Name		   Comments
+						07-27-2015		Srikar 		   Final Settings before review. 
+
+**************************************************************************************************************)
+	
+IF  GW_BootUpComplete THEN 
+		P02_ALARMS();							(*Monitors comm to controllers, IO servers and partner GW*)
+		P03_DATA_SELECTION();					(*Data source selection for data going to HMI*)
+		P04_MAP_LSP_TO_GW_DATA();				(*Maps incoming LSP NGVLs to GW local tag*)			
+		P05_MAP_GCS_GW_DATA();					(*Map data from GCS to GW*)
+		P06_MAP_GW_TO_IOSRV_LSP_DATA();			(*Maps GW local tag to HMI*)
+		//P07_MAP_GW_TO_IOSRV_GCS_DATA();
+		P08_SP_DISCREPANCY_CHECK();				(*Check if discrepancy in setpoint in both GWs*)
+		P09_MAP_IOSRV_TO_GW_LSP_DATA();			(*Maps data from HMI To local GW tags*)
+		//P10_MAP_IOSRV_TO_GW_GCS_DATA();			
+		P11_MAP_GW_TO_LSP_DATA();				(*Maps local GW tag to otgoing LSP NGVLS*)
+		P12_MAP_GW_GCSB3_DATA();				(*Map GW to GCS B3 data*)
+		P13_MAP_GW_GCSB_DATA();					(*Map GW to GCS B data*)
+		GW_B_CPU_PERCENT.instMag :=DINT_TO_REAL(CPU_Burden_Percent_5_Second_Average.stVal);
+		
+END_IF
+
+
+
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

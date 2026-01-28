@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>GW_to_GCS</Name>
+    <Content><![CDATA[TYPE GW_to_GCS :
+STRUCT
+	DWORD1			:DWORD;
+	DWORD2			:DWORD;
+	DWORD3			:DWORD;
+
+	AI 				: ARRAY[1..60] OF REAL;					
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

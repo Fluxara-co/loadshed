@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LSP_Alarms</Name>
+    <Content><![CDATA[TYPE LSP_Alarms :
+STRUCT
+	
+	LSP_Disabled_Status			:BOOL;
+	Contingency_Occured_Alarm	:BOOL;
+	UF_Contingency_Occured_Alarm:BOOL;
+	Contingency_Disabled		:BOOL;
+	Contingency_Not_Satisfied	:BOOL;
+	Comm_Alarm					:BOOL;
+	Discrepency_Alarm			:BOOL;
+	CONSISTENCY_ALARM			:BOOL;
+	PMS_DISABLED				:BOOL; 
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

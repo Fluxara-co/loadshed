@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P11_MAP_GW_TO_LSP_DATA</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P11_MAP_GW_TO_LSP_DATA
+VAR
+	i:INT;
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[IF GW_BootUpComplete THEN 
+(***************************************************************************************************************************)
+(*********************************************DATA TO LSP A*****************************************************************)		
+(***************************************************************************************************************************)
+
+
+(*********************************************CONT SUMMARY*****************************************************************)		
+
+	FOR i:= 1 TO nCONT DO
+		GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_MAX 			:= IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_MAX;
+		IF (i=1) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B3_G1_KW_Upp_Reg_limit_Read.instMag)THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B3_G1_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C1_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C1_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSIF (i=2) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B3_G2_KW_Upp_Reg_limit_Read.instMag)THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B3_G2_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C2_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C2_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSIF (i=3) THEN
+			GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+			C3_IRM_LIMITER.stVal	:= FALSE;
+		ELSIF (i=4) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B2_G1_KW_Upp_Reg_limit_Read.instMag)THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B2_G1_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C4_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C4_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSIF (i=5) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B2_G2_KW_Upp_Reg_limit_Read.instMag) THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B2_G2_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C5_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C5_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSIF (i=6) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B2_G3_KW_Upp_Reg_limit_Read.instMag) THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B2_G3_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C6_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C6_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSIF (i=7) THEN
+			GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+			C7_IRM_LIMITER.stVal	:= FALSE;
+		ELSIF (i=8) THEN
+			IF (IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator+GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P > B_G3_KW_Upp_Reg_limit_Read.instMag) THEN
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator 	:= B_G3_KW_Upp_Reg_limit_Read.instMag-GWB_TO_IOSRV_LSP_DATA.CONTINGENCY_DATA_ARRAY[i].Present_P;
+				C8_IRM_LIMITER.stVal	:= TRUE;
+			ELSE
+				GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+				C8_IRM_LIMITER.stVal	:= FALSE;
+			END_IF
+		ELSE
+		GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator		:=IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+		END_IF
+		IF (GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator	 <0) THEN
+			GW_B_TO_LSP_B3.CONTINGENCY[i].IRM_Operator	:=0;
+		END_IF
+		GW_B_TO_LSP_B3.CONTINGENCY[i].OPERATOR_DISABLE := IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].OPERATOR_DISABLE;
+	END_FOR
+	
+(*********************************************LOAD STATUS*****************************************************************)
+		
+	FOR i:= 1 TO nLOAD DO
+		GW_B_TO_LSP_B3.LOAD[i].TEST_SHED 				:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].TEST_SHED;
+		GW_B_TO_LSP_B3.LOAD[i].VALUE_ESTIMATED 			:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].VALUE_ESTIMATED;
+		GW_B_TO_LSP_B3.LOAD[i].VALUE_OVERRIDE 			:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].VALUE_OVERRIDE;
+	END_FOR
+	
+	GW_B_TO_LSP_B3.Priority_List						:=IOSRV_TO_GWB_LSP_DATA.Priority_List;
+	
+(*****************************************************UF*****************************************************************)	
+	
+	FOR i:=1 TO nUFCONT DO
+		GW_B_TO_LSP_B3.UF_L1_Load_To_Shed				:= IOSRV_TO_GWB_LSP_DATA.UF_L1_Load_To_Shed;
+		GW_B_TO_LSP_B3.UF_L2_Load_To_Shed				:= IOSRV_TO_GWB_LSP_DATA.UF_L2_Load_To_Shed;
+	END_FOR
+
+(*****************************************************DIAGNISTICS**********************************************************)		
+
+	GW_B_TO_LSP_B3.Disable_LSP_A						:= IOSRV_TO_GWB_LSP_DATA.Disable_LSP_A  OR LOCAL_GCS_GW_IN.DWORD10.11;
+	GW_B_TO_LSP_B3.Disable_LSP_B						:= IOSRV_TO_GWB_LSP_DATA.Disable_LSP_B OR LOCAL_GCS_GW_IN.DWORD10.11;
+	GW_B_TO_LSP_B3.Test_Mode							:= IOSRV_TO_GWB_LSP_DATA.Test_Mode;
+	GW_B_TO_LSP_B3.HMI_InitialReadComplete				:= IOSRV_TO_GWB_LSP_DATA.HMI_InitialReadComplete;
+	GW_B_TO_LSP_B3.CLEAR 								:= IOSRV_TO_GWB_LSP_DATA.CLEAR;
+	
+(***************************************************************************************************************************)
+(*********************************************DATA TO LSP B*****************************************************************)		
+(***************************************************************************************************************************)
+
+(*********************************************CONT SUMMARY*****************************************************************)		
+
+	FOR i:= 1 TO nCONT DO
+		GW_B_TO_LSP_B.CONTINGENCY[i].IRM_MAX 			:= IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_MAX;
+		GW_B_TO_LSP_B.CONTINGENCY[i].IRM_Operator 		:= IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].IRM_Operator;
+		GW_B_TO_LSP_B.CONTINGENCY[i].OPERATOR_DISABLE 	:= IOSRV_TO_GWB_LSP_DATA.CONTINGENCY[i].OPERATOR_DISABLE;
+	END_FOR
+	
+(*********************************************LOAD STATUS*****************************************************************)
+		
+	FOR i:= 1 TO nLOAD DO
+		GW_B_TO_LSP_B.LOAD[i].TEST_SHED 				:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].TEST_SHED;
+		GW_B_TO_LSP_B.LOAD[i].VALUE_ESTIMATED 			:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].VALUE_ESTIMATED;
+		GW_B_TO_LSP_B.LOAD[i].VALUE_OVERRIDE 			:= IOSRV_TO_GWB_LSP_DATA.LOAD[i].VALUE_OVERRIDE;
+	END_FOR
+	
+	GW_B_TO_LSP_B.Priority_List							:=IOSRV_TO_GWB_LSP_DATA.Priority_List;
+	
+(*****************************************************UF*****************************************************************)	
+	
+	FOR i:=1 TO nUFCONT DO
+		GW_B_TO_LSP_B.UF_L1_Load_To_Shed				:= IOSRV_TO_GWB_LSP_DATA.UF_L1_Load_To_Shed;
+		GW_B_TO_LSP_B.UF_L2_Load_To_Shed				:= IOSRV_TO_GWB_LSP_DATA.UF_L2_Load_To_Shed;
+	END_FOR
+
+(*****************************************************DIAGNISTICS**********************************************************)		
+
+	GW_B_TO_LSP_B.Disable_LSP_A							:= IOSRV_TO_GWB_LSP_DATA.Disable_LSP_A OR LOCAL_GCS_GW_IN.DWORD10.11;
+	GW_B_TO_LSP_B.Disable_LSP_B							:= IOSRV_TO_GWB_LSP_DATA.Disable_LSP_B OR LOCAL_GCS_GW_IN.DWORD10.11;
+	GW_B_TO_LSP_B.Test_Mode								:= IOSRV_TO_GWB_LSP_DATA.Test_Mode;
+	GW_B_TO_LSP_B.HMI_InitialReadComplete				:= IOSRV_TO_GWB_LSP_DATA.HMI_InitialReadComplete;
+	GW_B_TO_LSP_B.CLEAR 								:= IOSRV_TO_GWB_LSP_DATA.CLEAR;		
+END_IF]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

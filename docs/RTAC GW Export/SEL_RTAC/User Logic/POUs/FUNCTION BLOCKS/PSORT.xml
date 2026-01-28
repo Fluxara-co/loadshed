@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>PSORT</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK PSORT
+VAR_INPUT
+	
+	List_In_INT: ARRAY[1..47] OF WORD;
+	ENABLE:BOOL;
+
+END_VAR
+VAR_OUTPUT
+	Max_Item: WORD;
+
+	List_Out: ARRAY[1..47] OF WORD;
+	Changed:BOOL;
+
+END_VAR
+VAR
+	ARRAY_LENGTH:INT:=47;
+	List_In_: ARRAY[1..47] OF INT;
+	i: INT;
+	j: INT;
+	New: INT;
+	Old: INT;
+	Done: BOOL;
+	Item: INT;
+	List_Last: ARRAY [1..47] OF INT;
+	List_Next: ARRAY [1..47] OF INT;
+	k: INT;
+	Priority_Changed:BOOL;
+
+	FLAG:BOOL;
+	
+	List_IN: ARRAY [1..47] OF INT;
+	
+END_VAR]]></Interface>
+      <Implementation><![CDATA[FOR i:=1 TO ARRAY_LENGTH DO
+	List_In[i]:= WORD_TO_INT(List_In_INT[i]);
+END_FOR
+
+FOR k:=1 TO ARRAY_LENGTH DO
+	List_In_[k]:=List_In[k];
+END_FOR
+
+Priority_Changed := FALSE;
+
+IF ENABLE THEN  (*SORTING WILL BE DISABLED WHEN A DISCREPANCY BETWEEN LSPs IS DETECTED*)
+(*
+This POU manages the priorities of the sheddable loads to ensure the following:
+	1)	All non-zero priority numbers are unique for the contingency.
+	2)	The priority numbers are contiguous for the contingency.. 
+*)
+(* Initialize the intermediate variable 'List_Next' with the currently used priority for each load. *)
+	List_Next:=List_In;
+
+	FOR i := 1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+		New:=List_Next[i];
+		Old:=List_Last[i];
+
+		IF New<> Old THEN
+			Priority_Changed :=TRUE;
+		END_IF;
+(* If the priority has changed then there are four situations that require slightly different sorting of the priorities. *)
+
+(* If the new priority is less than the old priority and it is non-zero then increment the the existing load priorities
+which are greater or equal to the new priority but less than the old priority.  All other priorities remain unchanged. *)
+
+		IF New < Old AND New <>0 THEN
+			FOR j := 1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+				IF List_Next[j] >= New AND List_Next[j] < Old THEN
+					List_Next[j] :=List_Next[j] +1;
+				END_IF;
+			END_FOR;
+
+(* If the new priority is greater  than the old priority and the old priority is non-zero then decrement the the existing load priorities
+which are less than or equal to the new priority but greater than the old priority.  All other priorities remain unchanged. *)
+
+			ELSIF New > Old AND Old <>0 THEN
+			FOR j := 1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+				IF List_Next[j] <= New AND List_Next[j] > Old THEN
+					List_Next[j]  :=List_Next[j] -1;
+				END_IF;
+			END_FOR;
+
+(* If the new priority is greater  than zero and the old priority is zero then increment the the existing load priorities
+which are greater than or equal to the new priority.  All other priorities remain unchanged. *)
+
+			ELSIF New > 0 AND Old = 0 THEN
+			FOR j := 1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+					IF List_Next[j] >= New  THEN
+					List_Next[j] :=List_Next[j]+1;
+				END_IF;
+			END_FOR;
+
+(* If the new priority is equal to zero and the old priority is non-zero then decrement the the existing load priorities
+which are greater than  the old priority.  All other priorities remain unchanged. *)
+
+			ELSIF New = 0 AND Old <> 0 THEN
+			FOR j := 1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+				IF List_Next[j]  > Old  THEN
+					List_Next[j] :=List_Next[j] -1;
+				END_IF;
+			END_FOR;
+		END_IF;
+		List_Next[i]:= New;
+	END_FOR;
+
+
+(* Examine the priority lists and shift priorities if there are spaces in the priority list *)
+	FOR i := 1 TO (ARRAY_LENGTH) DO
+
+(* Search the priority list for a load with the next smaller priority.  When the next smaller priority is found
+then return the priority number that follows to ensure there is no spaces in the priority list. *)
+
+		Done:=FALSE;
+		Item:=List_Next[i];
+
+		WHILE NOT Done AND Item > 1 DO
+			FOR j:=1 TO (ARRAY_LENGTH) DO		(* Each Load *)
+				IF List_Next[j] = Item - 1 THEN
+					Done:=TRUE;
+					EXIT;
+				END_IF;
+			END_FOR;
+			IF Done=TRUE THEN
+				EXIT;
+			END_IF;
+			Item:=Item-1;
+		END_WHILE;
+
+		List_Next[i] := Item;
+
+	END_FOR;
+
+(* Update the operator interface and the currently used priority based on the results of the sort *)
+(* Determine the largest priority for use later to process the loads to be shed *)
+	Max_Item:=0;
+	FOR i := 1 TO ARRAY_LENGTH DO		(* Each Load *)
+		List_Out[i]:=INT_TO_WORD(List_Next[i]);
+		List_Last[i]:=List_Next[i];
+		IF List_Out[i] > Max_Item THEN
+			Max_Item:=List_Out[i];
+		END_IF;
+	END_FOR;
+	(* The priority should never be greater than 21. *)
+	IF Max_Item > INT_TO_WORD(ARRAY_LENGTH) THEN
+		Max_Item:=INT_TO_WORD(ARRAY_LENGTH);
+	END_IF;
+
+ELSE
+FOR i:=1 TO 47 DO
+	List_Out[i]	:=	INT_TO_WORD(List_In[i]);	(*IF THE SORTING BLOCK IS NOT ENABLED, THE PAST THE INPUT VALUES TO THE OUTPUT VALUES*)
+END_FOR
+	List_Next	:=	List_In	;	(*IF THE SORTING BLOCK IS NOT ENABLED, THE PAST THE INPUT VALUES TO THE OUTPUT VALUES*)
+	List_Last	:=	List_In	;	(*IF THE SORTING BLOCK IS NOT ENABLED, THE PAST THE INPUT VALUES TO THE OUTPUT VALUES*)
+
+	Max_Item:=0;
+	FOR i := 1 TO 1 DO		(* Each Load *)
+		IF List_Out[i] > Max_Item THEN
+			Max_Item:=List_Out[i];
+		END_IF;
+	END_FOR;
+	
+END_IF;
+
+IF List_In[3] =5 THEN
+	FLAG:=TRUE;
+END_IF
+
+
+Changed:=Priority_Changed;
+
+(*
+*)
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>BUS_CON_DECODE</Name>
+    <POUKind>FunctionBlock</POUKind>
+    <Content>
+      <Interface><![CDATA[FUNCTION_BLOCK BUS_CON_DECODE
+VAR_INPUT
+	BUS_CON_IN_A:DWORD;
+	
+END_VAR
+
+VAR_OUTPUT
+	BUS_CON_OUT_A:INT;
+	
+END_VAR
+VAR
+	BUS_CON_A:INT;
+
+	i:INT;
+	j:BYTE;
+END_VAR]]></Interface>
+      <Implementation><![CDATA[(*This function block changes the bus connection DWORD
+(A byte representation of the bus connection, to an integer*)
+(* USE 'EXTRACT' FUNCTION!!!!!!!!*)
+	BUS_CON_A := 0;
+
+FOR i:=0 TO 31 DO
+	j := INT_TO_BYTE(i);
+	IF EXTRACT(X:=BUS_CON_IN_A, N:=j) THEN
+		BUS_CON_A := j +1;
+	END_IF
+
+END_FOR
+
+BUS_CON_OUT_A := BUS_CON_A;
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

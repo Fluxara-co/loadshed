@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <POU>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>P03_DATA_SELECTION</Name>
+    <POUKind>Program</POUKind>
+    <Content>
+      <Interface><![CDATA[PROGRAM P03_DATA_SELECTION
+VAR
+END_VAR
+]]></Interface>
+      <Implementation><![CDATA[(*Source selection for data to HMI*)
+
+(* Check if LSP is in alarm*)
+IF NOT LSP_B3_COM AND NOT LSPA_DISABLED_IN.stVal THEN 		//To check if LSP is disabled if values still need to be displayed and only outputs blocked
+	LOCAL_LSP_GW_IN:=LSP_B3_TO_GW_B;
+ELSIF NOT LSP_B_COM AND NOT LSPB_DISABLED_IN.stVal THEN
+	LOCAL_LSP_GW_IN:=LSP_B_TO_GW_B;
+END_IF
+
+
+(*Check if GCS A is in alarm*)
+IF NOT (GCS_B3_COM) AND (AGC_Enable_Status_A.stVal) THEN
+	LOCAL_GCS_GW_IN:=NGVL_GCSB3_GW;
+ELSIF NOT (GCS_B_COM) AND (AGC_Enable_Status_B.stVal) THEN
+	LOCAL_GCS_GW_IN:=NGVL_GCSB_GW;
+END_IF
+
+
+]]></Implementation>
+    </Content>
+  </POU>
+</RTACModule>

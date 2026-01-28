@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(MicroserviceTemplate VERSION 1.0.0 LANGUAGES CXX)
+project(LoadShed VERSION 1.0.0 LANGUAGES CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -16,7 +16,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Find required packages
-find_package(PkgConfig REQUIRED)
+find_package(PkgConfig QUIET)
 
 # Find spdlog
 find_package(spdlog REQUIRED)
@@ -36,14 +36,14 @@ add_subdirectory(src)
 # Install configuration
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/MicroserviceTemplateConfigVersion.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/LoadShedConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 
 # Export targets
-install(TARGETS microservice_template
-    EXPORT MicroserviceTemplateTargets
+install(TARGETS loadshed
+    EXPORT LoadShedTargets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -57,12 +57,12 @@ install(DIRECTORY include/
 
 # Install config files
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/MicroserviceTemplateConfigVersion.cmake"
-    DESTINATION lib/cmake/MicroserviceTemplate
+    "${CMAKE_CURRENT_BINARY_DIR}/LoadShedConfigVersion.cmake"
+    DESTINATION lib/cmake/LoadShed
 )
 
-install(EXPORT MicroserviceTemplateTargets
-    FILE MicroserviceTemplateTargets.cmake
-    NAMESPACE MicroserviceTemplate::
-    DESTINATION lib/cmake/MicroserviceTemplate
+install(EXPORT LoadShedTargets
+    FILE LoadShedTargets.cmake
+    NAMESPACE LoadShed::
+    DESTINATION lib/cmake/LoadShed
 )

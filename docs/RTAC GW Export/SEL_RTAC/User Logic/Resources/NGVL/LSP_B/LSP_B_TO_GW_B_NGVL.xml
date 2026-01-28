@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <Device>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LSP_B_TO_GW_B</Name>
+    <Manufacturer>Any</Manufacturer>
+    <Model>Other</Model>
+    <Connection>
+      <Protocol>NGVL</Protocol>
+      <ConnectionType>Ethernet</ConnectionType>
+      <SettingPages>
+        <SettingPage>
+          <Name>Settings</Name>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>GVL Type</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>Receive</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Broadcast Address</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>10.3.1.5</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Broadcast Port</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>1202</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Network Type</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>UDP</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>List ID</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>249</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Pack Variables</Value>
+            </Setting>
+            <Setting>
+              <Column>Value</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transmit Checksum</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Acknowledgement</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Cyclic Transmission</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>True</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Cyclic Transmission Interval</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>100</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transmit On Change</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transmit On Change Minimum Gap</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>100</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transmit On Event</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value>False</Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+          <Row>
+            <Setting enabled="false">
+              <Column>Setting</Column>
+              <Value>Transmit On Event Variable</Value>
+            </Setting>
+            <Setting enabled="false">
+              <Column>Value</Column>
+              <Value></Value>
+            </Setting>
+            <Setting>
+              <Column>Comment</Column>
+              <Value />
+            </Setting>
+          </Row>
+        </SettingPage>
+      </SettingPages>
+      <Variables><![CDATA[VAR_GLOBAL
+	
+	LSP_B_GW_B_WD:DWORD;			(*LSP_B_to_GW_B watchdog*)
+	LSP_B_to_GW_B:LSP_HMI_DATA;		(*NGV_LSP_B_to_GW_B of data type LSP_to_GW*)
+END_VAR
+]]></Variables>
+    </Connection>
+  </Device>
+</RTACModule>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>GW_CONTINGENCY_DATA</Name>
+    <Content><![CDATA[TYPE GW_CONTINGENCY_DATA :
+STRUCT
+	
+	(***********************************************************************************************************************
+										BITPACKING INFO FOR CONTINGENCY_DATA
+	********************************************************************************************************************************
+	BIT 0 :			Status						 Status of this Contingency Good/Bad
+	BIT 1 :			Satisfied					 Enough load has been identified for shed 
+	BIT 2 : 		ENABLED						 This contingency is enabled 
+	BIT 3 : 		OPERATOR_DISABLE			 The contingency disable command from the HMI
+	BIT 4 : 		Bad_Status					 Bad Status for contingency breakers
+	***************************************************************************************************************)
+
+	CONTINGENCY_DATA:DWORD;
+	Name:STRING(32);					 (*Contingency Name*)
+	Present_P:REAL; 					 (* Measured kW*)
+	Present_Q:REAL; 					 (* Measured kW*)
+	Current_Max_P:REAL; 				 (* Present_P + IRM_Actual *)
+	Available_Cap:REAL;  				 (*Sum of Current MAX of all remaining generation *)
+	Measured_Load:REAL;				 	 (*Sum of all Generation Present Power  *)
+	IRM_Actual:REAL;					 (*= Operator IRM IF Spinning reserve >Operator IRM;    = Spinning reserve IF Spinning reserve <Operator IRM  *)
+	IRM_Operator:REAL;					 (*Step load capability of the generator set by the operator *)
+	Load_to_Shed:REAL; 				 	 (* Calculated available load to be shed *)
+	Required_to_Shed:REAL; 			 	 (* Calculated required load to be shed *)
+	LOAD_BUS_CONN:DWORD;		 		 (*Bus that load is connected to  *)
+	Select_List: ARRAY[1..8] OF DWORD;   (* List of indications identifying which loads have been selected for this contingency *)
+	Inhibit_List: ARRAY[1..8] OF DWORD;  (* List of indications identifying which loads have been inhibited for this contingency *)
+	IRM_MAX : REAL;						 (*MAXMIMUM LIMIT FOR THE IRM VALUES FROM THE HMI*)
+	X_Point:ARRAY[1..nLOAD] OF INT;		(*X POINT MAPPING*)
+	BUS : STRING;						(*BUS CONNECTION*)
+	
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

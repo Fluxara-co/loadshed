@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>LSP_HMI_DATA</Name>
+    <Content><![CDATA[TYPE LSP_HMI_DATA :
+STRUCT
+	
+	LOAD_DATA_ARRAY:ARRAY[1..nLOAD] OF LOAD_DATAOUT; 			  			(*load data array for  the load shed  screen of data type LOAD_DATAOUT*)
+	CONTINGENCY_DATA_ARRAY:ARRAY[1..nCONT] OF CONTINGENCY_DATAOUT; 			(*contingency data array for the contingency summary screen of data type*)
+	Priority_List: ARRAY[1..47] OF WORD;									(*List of priority numbers for this contingency *)
+	Contingency_Detected1:DWORD; 											(*Indicates whether a contingency is detected or not*)
+	Load_Trip_Outputs:ARRAY[1..4] OF DWORD; 								(*load flags to indicate when a load is shed *)
+	IED_Alarms:HMI_IED_ALARMS;												(*FEP, LSP and Relay Alarms*)															
+	LSP_Alarms:DWORD;														(*LSP Alarms for the LSP Alarm Screen*)
+	LSP_InitialReadComplete:BOOL;											(*upon startup used for initialization of data*)
+	HMI_TEST_MODE:BOOL;														(*Test Mode for test shed*)
+	UF_CONTINGENCY_DATA_ARRAY:ARRAY[1..nUFCONT] OF CONTINGENCY_DATAOUT; 	(*contingency data array for the contingency summary screen of data type*)
+	LSP_VERSION:REAL;														(*LSP code version*)
+	UF_L1_Load_To_Shed:REAL;												(*Level 1 load to shed*)
+	UF_L2_Load_To_Shed:REAL;												(*level 2 load to shed*)
+	LSP_ENABLED:BOOL;														(*LSP Enabled*)
+	LSP_Disabled_A:BOOL;
+	LSP_Disabled_B:BOOL;
+	DFD_CONN:INT;															(*Data flow connection*)
+	UF_Load_Trip_Outputs:ARRAY[1..4] OF DWORD;								(*UF load shed outputs*)
+	TOPO_BKR_STATUS: ARRAY[1..nTOPO] OF BOOL;								(*????????????*)
+	BKR_STATUS: ARRAY[1..20] OF BOOL;										(*????????????*)
+	Block_Timer_Active:BOOL;
+	FEP_B3_CPU_PERCENT:REAL;
+	FEP_B_CPU_PERCENT:REAL;
+	
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

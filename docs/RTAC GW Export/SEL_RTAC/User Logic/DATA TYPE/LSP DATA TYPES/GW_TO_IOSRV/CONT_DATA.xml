@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>CONT_DATA</Name>
+    <Content><![CDATA[TYPE CONT_DATA :
+STRUCT
+	Status			:BOOL;
+	Satisfied		:BOOL;
+	Enabled			:BOOL;
+	Operator_Disable:BOOL;
+	Bad_Status		:BOOL;
+	Alarm			:BOOL;
+
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>

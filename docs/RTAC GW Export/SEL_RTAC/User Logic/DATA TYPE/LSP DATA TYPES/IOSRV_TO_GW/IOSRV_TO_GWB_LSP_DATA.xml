@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RTACModule>
+  <DataType>
+    <ExportSource>
+      <Schema>18</Schema>
+      <DeviceMOT>3530HB0AX313X1XXXXXX</DeviceMOT>
+    </ExportSource>
+    <Name>IOSRV_TO_GWB_LSP_DATA</Name>
+    <Content><![CDATA[TYPE IOSRV_TO_GWB_LSP_DATA :
+STRUCT
+	
+	LOAD:ARRAY[1..nLOAD] OF HMI_LOAD_DATA;						(*load data array for  the load shed  screen of data type LOAD_DATAOUT*)
+	CONTINGENCY:ARRAY[1..nCONT] OF HMI_CONTINGENCY_DATA;		(*Contingency data array for the contingency summary screen of data type*)
+	Disable_LSP_A:BOOL;											(*Disables LSP A *)
+	Disable_LSP_B:BOOL;											(*Disables LSP B *)
+	Disable_LSP:BOOL;											(*Master Disable*)
+	Test_Mode:BOOL;												(*Test shed *)
+	Copy_Data_From_LSPA_to_LSPB:BOOL;							(*Copy set points from LSP B*)
+	Copy_Data_From_LSPB_to_LSPA:BOOL;							(*Copy set points from LSP A*)
+	HMI_InitialReadComplete:BOOL;								(*HMI initial read complete*)
+	UF_L1_Load_To_Shed:REAL;									(*Level 1 load to shed*)
+	UF_L2_Load_To_Shed:REAL;									(*level 2 load to shed*)
+	Priority_List: ARRAY[1..nLOAD] OF WORD;						(*load priority from HMI*)
+	CLEAR:BOOL;													(*CLear load shed and cont flags*)
+	Enable_LSP:BOOL;
+	DataChanged:BOOL;											(*Data changed bit*)
+	
+END_STRUCT
+END_TYPE
+]]></Content>
+  </DataType>
+</RTACModule>
