@@ -96,7 +96,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        platforms: linux/arm64
+        platforms: linux/arm64,linux/amd64
         file: ${{ steps.dockerfile.outputs.dockerfile }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
@@ -106,7 +106,7 @@ jobs:
 
     - name: Verify image
       run: |
-        echo "Verifying ARM64 image..."
+        echo "Verifying multi-arch image (ARM64 + AMD64)..."
         docker buildx imagetools inspect ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE_NAME }}:latest
         echo "Image verification complete"
     - name: Test image
