@@ -1,0 +1,33 @@
+# Unit test for the POST /custom/mqtt/publish opt-in and topic guard
+# (mosquitto-config#27). The policy is header-only, so this compiles the one test
+# file without the service's dependencies. amd64 only; seconds, not minutes.
+
+name: mqtt-publish-policy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'include/microservice/core/mqtt_publish_endpoint_policy.hpp'
+      - 'tests/mqtt_publish_endpoint_policy_test.cpp'
+      - '.github/workflows/mqtt-publish-policy.yml'
+  pull_request:
+    paths:
+      - 'include/microservice/core/mqtt_publish_endpoint_policy.hpp'
+      - 'tests/mqtt_publish_endpoint_policy_test.cpp'
+      - '.github/workflows/mqtt-publish-policy.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container: gcc:13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and run
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror -Iinclude \
+              tests/mqtt_publish_endpoint_policy_test.cpp -o mqtt_publish_endpoint_policy_test
+          ./mqtt_publish_endpoint_policy_test

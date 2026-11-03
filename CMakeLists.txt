@@ -8,6 +8,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Build options
 option(BUILD_TESTS "Build tests" OFF)
+if(BUILD_TESTS)
+    enable_testing()
+endif()
 option(BUILD_DOCS "Build documentation" OFF)
 
 # Set output directories
@@ -32,6 +35,13 @@ include_directories(/usr/local/include)
 
 # Add subdirectories
 add_subdirectory(src)
+
+# mosquitto-config#27: header-only opt-in + topic guard for POST /custom/mqtt/publish.
+if(BUILD_TESTS)
+    add_executable(mqtt_publish_endpoint_policy_test tests/mqtt_publish_endpoint_policy_test.cpp)
+    target_include_directories(mqtt_publish_endpoint_policy_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    add_test(NAME mqtt_publish_endpoint_policy COMMAND mqtt_publish_endpoint_policy_test)
+endif()
 
 # Install configuration
 include(CMakePackageConfigHelpers)

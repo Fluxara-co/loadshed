@@ -126,6 +126,10 @@ Create a `configs/service_config.json` file:
 }
 ```
 
+### MQTT publish endpoint (off by default)
+
+`POST /api/v1/custom/mqtt/publish` publishes under this service's broker identity, which bypasses broker ACLs (mosquitto-config#27). It is only registered when `LOADSHED_MQTT_PUBLISH_ENABLED` is `1`, `true`, `yes` or `on` (case-insensitive); otherwise it returns `404`. When on, it publishes only topics equal to or under a prefix in `LOADSHED_MQTT_PUBLISH_ALLOWED_PREFIXES` (comma-separated; empty refuses everything) and always refuses command topics (`write`, `operate`, `control`, `commands`, `cmd`, `run`, `config` segments; `pm/control`, `fluxara/{redundancy,commands,services,devices,node,ha}`, `ppc/commands`, `ppc/cmd`, `redundancy`, PPC setpoints; wildcards and `$` topics) with `403`. The guard is `include/microservice/core/mqtt_publish_endpoint_policy.hpp`.
+
 ## Dependencies
 
 - **C++17** or later
