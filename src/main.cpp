@@ -18,6 +18,7 @@
 #include "microservice/utils/logger.h"
 #include "microservice/core/process_manager.h"
 #include "microservice/core/process_manager_api.h"
+#include "microservice/core/mqtt_publish_endpoint_policy.hpp"
 #include "microservice/models/loadshed_state_manager.h"
 
 #include <signal.h>
@@ -130,13 +131,36 @@ void setupApiEndpoints(std::shared_ptr<microservice::ApiServer> api_server,
             res.set_content(response.dump(), "application/json");
         });
     
-    // Example: MQTT Publish Test endpoint
+    // Example: MQTT Publish Test endpoint. It publishes under this service's broker identity,
+    // which bypasses broker ACLs (mosquitto-config#27), so it is opt-in: off unless
+    // LOADSHED_MQTT_PUBLISH_ENABLED is true (route not registered, 404). When on it
+    // only publishes topics under LOADSHED_MQTT_PUBLISH_ALLOWED_PREFIXES, never a
+    // command topic (403).
+    namespace mpp = microservice::mqtt_publish_policy;
+    if (!mpp::enabledFromEnv()) {
+        microservice::Logger::info(std::string("POST /api/v1/custom/mqtt/publish disabled (set ") +
+            mpp::kEnabledEnv + "=true to enable)");
+    } else {
+    const auto mqtt_publish_allowed = mpp::allowedPrefixesFromEnv();
+    std::string allowed_list;
+    for (const auto& p : mqtt_publish_allowed) allowed_list += (allowed_list.empty() ? "" : ",") + p;
+    microservice::Logger::warn(std::string(mpp::kEnabledEnv) +
+        "=true: POST /api/v1/custom/mqtt/publish enabled for topic prefixes [" + allowed_list +
+        "]; command topics are always refused");
     api_server->registerPostRoute("/custom/mqtt/publish",
-        [service_manager](const Request& req, Response& res) {
+        [service_manager, mqtt_publish_allowed](const Request& req, Response& res) {
             try {
                 auto body = json::parse(req.body);
                 std::string topic = body.value("topic", "test/microservice/default");
                 std::string message = body.value("message", "test message");
+
+                const std::string refused = mpp::refusalReason(topic, mqtt_publish_allowed);
+                if (!refused.empty()) {
+                    res.status = 403;
+                    json error = {{"error", refused}};
+                    res.set_content(error.dump(), "application/json");
+                    return;
+                }
                 
                 auto mqtt_pub = service_manager->getMQTTPublisher();
                 if (!mqtt_pub) {
@@ -162,6 +186,7 @@ void setupApiEndpoints(std::shared_ptr<microservice::ApiServer> api_server,
                 res.set_content(error.dump(), "application/json");
             }
         });
+    }
     
     // Configuration Management endpoints
     api_server->registerGetRoute("/custom/config",
